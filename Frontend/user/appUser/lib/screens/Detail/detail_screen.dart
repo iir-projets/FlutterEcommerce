@@ -17,12 +17,11 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int currentImage = 0;
-  int currentColor = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kcontentColor,
-      // for add to cart , icon and quantity
       floatingActionButton: AddToCart(product: widget.product),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SafeArea(
@@ -30,9 +29,7 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // for back button share and favorite,
-            DetailAppBar(product: widget.product,),
-            // for detail image slider
+            DetailAppBar(product: widget.product),
             MyImageSlider(
               image: widget.product.image,
               onChange: (index) {
@@ -82,56 +79,11 @@ class _DetailScreenState extends State<DetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // for product name, price, rating, and seller
                   ItemsDetails(product: widget.product),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Color",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: List.generate(
-                      widget.product.colors.length,
-                      (index) => GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            currentColor = index;
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: currentColor == index
-                                ? Colors.white
-                                : widget.product.colors[index],
-                            border: currentColor == index
-                                ? Border.all(
-                                    color: widget.product.colors[index],
-                                  )
-                                : null,
-                          ),
-                          padding: currentColor == index
-                              ? const EdgeInsets.all(2)
-                              : null,
-                          margin: const EdgeInsets.only(right: 10),
-                          child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                                color: widget.product.colors[index],
-                                shape: BoxShape.circle),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                   const SizedBox(height: 25),
-                   // for description
-                   Description(description: widget.product.description,)
+                  const SizedBox(height: 25),
+                  Description(
+                    description: widget.product.description,
+                  )
                 ],
               ),
             )

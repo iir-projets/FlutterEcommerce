@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ecommerce_mobile_app/constants.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -9,9 +10,9 @@ class Profile extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "images/profile3.png",
-            fit: BoxFit.cover,
+          Container(
+            color:
+                kprimaryColor, // Remplacez la couleur par celle que vous souhaitez utiliser
             height: size.height,
             width: size.width,
           ),
@@ -24,7 +25,7 @@ class Profile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Container(
-                  height: size.height * 0.4,
+                  height: size.height * 0.5,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
                   child: Column(

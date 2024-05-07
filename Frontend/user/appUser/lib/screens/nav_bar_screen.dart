@@ -14,7 +14,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int cuttentIndex = 2;
-    List screens = const [
+  List screens = const [
     Scaffold(),
     Favorite(),
     HomeScreen(),
@@ -28,7 +28,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
         onPressed: () {
           setState(() {
             cuttentIndex = 2;
-          
           });
         },
         shape: const CircleBorder(),

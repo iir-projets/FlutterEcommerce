@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SizedBox categoryItems() {
     return SizedBox(
-      height: 130,
+      height: 140,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: categoriesList.length,
@@ -120,11 +120,11 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
             child: Container(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
                 color: selectedIndex == index
-                    ? Colors.blue[200]
+                    ? Colors.grey[200]
                     : Colors.transparent,
               ),
               child: Column(
@@ -140,9 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     padding:
-                        EdgeInsets.only(bottom: 10), // Ajout de padding en bas
+                        EdgeInsets.only(bottom: 5), // Ajout de padding en bas
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 6),
                   Text(
                     categoriesList[index].title,
                     style: const TextStyle(

@@ -29,18 +29,18 @@ class MySearchBAR extends StatelessWidget {
                   hintText: "Search...", border: InputBorder.none),
             ),
           ),
-          Container(
-            height: 25,
-            width: 1.5,
-            color: Colors.grey,
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.tune,
-              color: Colors.grey,
-            ),
-          ),
+          // Container(
+          //   height: 25,
+          //   width: 1.5,
+          //   color: Colors.grey,
+          // ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(
+          //     Icons.tune,
+          //     color: Colors.grey,
+          //   ),
+          // ),
         ],
       ),
     );

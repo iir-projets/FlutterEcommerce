@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       // for total and check out
       backgroundColor: kcontentColor,
-      bottomSheet:  CheckOutBox(),
+      bottomSheet:  const CheckOutBox(),
 
       body: SafeArea(
         child: Column(

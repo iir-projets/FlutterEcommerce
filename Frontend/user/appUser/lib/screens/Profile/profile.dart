@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_mobile_app/constants.dart';
 
 class Profile extends StatelessWidget {
-  const Profile({Key? key}) : super(key: key);
+  const Profile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class Profile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
               ),
               // Ajustez le padding pour déplacer le contenu vers le bas
-              child: Container(
+              child: SizedBox(
                 height: size.height * 0.5,
                 child: Column(
                   children: [
@@ -65,11 +65,11 @@ class Profile extends StatelessWidget {
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Column(
+                          const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Text(
+                              Text(
                                 "Winnie Vasquez",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
@@ -77,7 +77,7 @@ class Profile extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              const Text(
+                              Text(
                                 "Flutter Developer",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
@@ -110,9 +110,9 @@ class Profile extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(18.0),
                                   )), // Forme du bouton
                                 ),
-                                child: Text("Editer"),
+                                child: const Text("Editer"),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
                                   // Action lorsque le bouton "Déconnexion" est appuyé
@@ -131,7 +131,7 @@ class Profile extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(18.0),
                                   )), // Forme du bouton
                                 ),
-                                child: Text("Déconnexion"),
+                                child: const Text("Déconnexion"),
                               ),
                             ],
                           ),

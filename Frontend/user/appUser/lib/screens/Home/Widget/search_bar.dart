@@ -14,15 +14,15 @@ class MySearchBAR extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(
+          Icon(
             Icons.search,
             color: Colors.grey,
             size: 30,
           ),
-          const SizedBox(width: 10),
-          const Flexible(
+          SizedBox(width: 10),
+          Flexible(
             flex: 4,
             child: TextField(
               decoration: InputDecoration(

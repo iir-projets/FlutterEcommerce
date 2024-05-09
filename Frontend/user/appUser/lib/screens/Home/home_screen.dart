@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: categoriesList.length,
         physics: const BouncingScrollPhysics(),
         separatorBuilder: (context, index) =>
-            SizedBox(width: 30), // Ajout de l'espace entre chaque élément
+            const SizedBox(width: 30), // Ajout de l'espace entre chaque élément
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     padding:
-                        EdgeInsets.only(bottom: 5), // Ajout de padding en bas
+                        const EdgeInsets.only(bottom: 5), // Ajout de padding en bas
                   ),
                   const SizedBox(height: 6),
                   Text(

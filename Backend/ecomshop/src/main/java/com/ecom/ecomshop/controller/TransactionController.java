@@ -19,7 +19,7 @@ public class TransactionController {
         return transactionRepository.findAll();
     }
 
-    @PostMapping("/transaction")
+    @PostMapping("/ajouterTransaction")
     public String ajouterTransaction(@RequestBody Transaction transaction) {
         transactionRepository.save(transaction);
         return "Transaction ajoutée avec succès";

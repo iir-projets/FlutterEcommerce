@@ -1,3 +1,5 @@
+package com.ecom.ecomshop.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,7 @@ public class CategorieController {
         return categorieRepository.findAll();
     }
 
-    @PostMapping("/categorie")
+    @PostMapping("/ajouterCategorie")
     public String ajouterCategorie(@RequestBody Categorie categorie) {
         categorieRepository.save(categorie);
         return "Catégorie ajoutée avec succès";

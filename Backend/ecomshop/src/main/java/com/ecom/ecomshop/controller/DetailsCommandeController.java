@@ -19,7 +19,7 @@ public class DetailsCommandeController {
         return detailCommandeRepository.findAll();
     }
 
-    @PostMapping("/detailCommande")
+    @PostMapping("/ajouterDetailCommande")
     public String ajouterDetailCommande(@RequestBody DetailsCommande detailsCommande) {
         detailCommandeRepository.save(detailsCommande);
         return "Détail de commande ajouté avec succès";

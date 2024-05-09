@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_mobile_app/constants.dart';
 import 'editProfile.dart'; // Importez la page PageEditProfil.dart
 import '../Login/signIn.dart'; // Importez la page PageLogin.dart
+import './editProfile.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -96,12 +97,13 @@ class Profile extends StatelessWidget {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  // Redirection vers la page d'édition de profil
-                                  // Navigator.push(
-                                  //   context
-                                  //   // MaterialPageRoute(
-                                  //   //     builder: (context) => PageEditProfil()),
-                                  // );
+                                  // Redirection vers la page de connexion
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ModifyProfileScreen()),
+                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:

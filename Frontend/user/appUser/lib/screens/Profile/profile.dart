@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ecommerce_mobile_app/constants.dart';
+import 'editProfile.dart'; // Importez la page PageEditProfil.dart
+import '../Login/signIn.dart'; // Importez la page PageLogin.dart
 
 class Profile extends StatelessWidget {
   const Profile({Key? key}) : super(key: key);
@@ -94,8 +96,12 @@ class Profile extends StatelessWidget {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  // Action lorsque le bouton "Editer" est appuyé
-                                  // Ajoutez votre logique ici
+                                  // Redirection vers la page d'édition de profil
+                                  // Navigator.push(
+                                  //   context
+                                  //   // MaterialPageRoute(
+                                  //   //     builder: (context) => PageEditProfil()),
+                                  // );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
@@ -115,8 +121,12 @@ class Profile extends StatelessWidget {
                               SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  // Action lorsque le bouton "Déconnexion" est appuyé
-                                  // Ajoutez votre logique ici
+                                  // Redirection vers la page de connexion
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage()),
+                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<

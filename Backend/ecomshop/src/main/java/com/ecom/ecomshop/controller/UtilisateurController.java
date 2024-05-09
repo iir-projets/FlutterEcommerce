@@ -1,7 +1,10 @@
 package com.ecom.ecomshop.controller;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +20,16 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
+    @GetMapping("/getUser")
+    public List<Utilisateur> utilisateur() {
+        return utilisateurRepository.findAll();
+    }
+
+    @GetMapping("/getUserId/{user_id}")
+    public Optional<Utilisateur> obtenirUtilisateurParId(@PathVariable long user_id) {
+        return utilisateurRepository.findById(user_id);
+    }
+    
     @PostMapping("/connexion")
     public String connexion(@RequestBody Utilisateur utilisateur) {
         Utilisateur utilisateurFromDB = utilisateurRepository.findByEmailAndPassword(utilisateur.getEmail(), utilisateur.getPassword());
@@ -67,4 +80,11 @@ public class UtilisateurController {
             return "Utilisateur non trouvé";
         }
     }
+
+    @GetMapping("/utilisateurId/{user_id}")
+    public String supprimerUtilisateurParId(@PathVariable long user_id) {
+        utilisateurRepository.deleteById(user_id);
+        return "Utilisateur supprimé avec succès";
+    }
+    
 }

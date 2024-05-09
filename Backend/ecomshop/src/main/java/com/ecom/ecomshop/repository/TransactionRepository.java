@@ -1,9 +1,9 @@
 package com.ecom.ecomshop.repository;
 
-import com.ecom.ecomshop.model.Product;
+import com.ecom.ecomshop.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 }

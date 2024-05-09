@@ -6,19 +6,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
 import java.math.BigDecimal;
-import java.util.Date;
 
 @Entity
-@Table(name = "product")
-public class Product {
+@Table(name = "article")
+public class Article {
 
+    // ATTRIBUTS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long articleId;
 
     @Column(nullable = false, length = 255)
     private String name;
@@ -26,27 +23,26 @@ public class Product {
     @Column(length = 500)
     private String description;
 
+    // hadik precision pour stocker 10 chiffres au total o scale: 2 apres la virgule
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    private Integer stock;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
     // Constructors
-    public Product() {
+    public Article() {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
+    /* ********************** ID ARTICLE START  ********************** */
+    public Long getArticleId() {
+        return articleId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long articleId) {
+        this.articleId = articleId;
     }
+    /* ********************** ID ARTICLE END  ********************** */
+
+    /* ********************** NAME START  ********************** */
 
     public String getName() {
         return name;
@@ -55,6 +51,9 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+    /* ********************** NAME END  ********************** */
+
+    /* ********************** DESCRIPTION START  ********************** */
 
     public String getDescription() {
         return description;
@@ -63,6 +62,9 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
+    /* ********************** DESCRIPTION END  ********************** */
+
+    /* ********************** PRICE START  ********************** */
 
     public BigDecimal getPrice() {
         return price;
@@ -71,18 +73,7 @@ public class Product {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+    /* ********************** PRICE END  ********************** */
 
-    public Integer getStock() {
-        return stock;
-    }
 
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    // There is no setCreatedAt as it is managed by the database
 }

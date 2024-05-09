@@ -1,12 +1,13 @@
 package com.ecom.ecomshop.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 
 @Entity
 @Table(name = "article")
@@ -27,6 +28,9 @@ public class Article {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false) // Vous pouvez ajuster les paramètres en fonction de vos besoins
+    private byte[] image; // Utilisation d'un tableau de bytes pour stocker l'image
+
     // Constructors
     public Article() {
     }
@@ -37,13 +41,12 @@ public class Article {
         return articleId;
     }
 
-    public void setId(Long articleId) {
+    public void setArticleId(Long articleId) {
         this.articleId = articleId;
     }
     /* ********************** ID ARTICLE END  ********************** */
 
     /* ********************** NAME START  ********************** */
-
     public String getName() {
         return name;
     }
@@ -54,7 +57,6 @@ public class Article {
     /* ********************** NAME END  ********************** */
 
     /* ********************** DESCRIPTION START  ********************** */
-
     public String getDescription() {
         return description;
     }
@@ -63,7 +65,6 @@ public class Article {
         this.description = description;
     }
     /* ********************** DESCRIPTION END  ********************** */
-
     /* ********************** PRICE START  ********************** */
 
     public BigDecimal getPrice() {
@@ -75,5 +76,14 @@ public class Article {
     }
     /* ********************** PRICE END  ********************** */
 
+    /* ********************** IMAGE START  ********************** */
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+    /* ********************** IMAGE END  ********************** */
 
 }

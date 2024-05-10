@@ -37,6 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.6
   google_fonts: ^6.2.1
   provider: ^6.1.2
+  get:
+  # darto bach testi f web for fix error web
+  connectivity:
+  # for storage
+  shared_preferences:
+
+
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.ecomshop.model.Utilisateur;
@@ -30,16 +31,31 @@ public class UtilisateurController {
         return utilisateurRepository.findById(user_id);
     }
     
+    // @PostMapping("/connexion")
+    // public String connexion(@RequestBody Utilisateur utilisateur) {
+    //     Utilisateur utilisateurFromDB = utilisateurRepository.findByEmailAndPassword(utilisateur.getEmail(), utilisateur.getPassword());
+    //     if (utilisateurFromDB != null) {
+    //         return "Connexion réussie";
+    //     } else {
+    //         return "Identifiants incorrects";
+    //     }
+    // }
     @PostMapping("/connexion")
-    public String connexion(@RequestBody Utilisateur utilisateur) {
-        Utilisateur utilisateurFromDB = utilisateurRepository.findByEmailAndPassword(utilisateur.getEmail(), utilisateur.getPassword());
+    public String connexion(@RequestParam("email") String email, @RequestParam("password") String password) {
+        // Retrieve the user by email
+        Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(email);
+        
         if (utilisateurFromDB != null) {
-            return "Connexion réussie";
+            // Verify the password matches
+            if (utilisateurFromDB.getPassword().equals(password)) {
+                return "Connexion réussie";
+            } else {
+                return "Mot de passe incorrect";
+            }
         } else {
-            return "Identifiants incorrects";
+            return "Adresse email non trouvée";
         }
     }
-    
     @PostMapping("/inscription")
     public String inscription(@RequestBody Utilisateur utilisateur) {
         Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(utilisateur.getEmail());

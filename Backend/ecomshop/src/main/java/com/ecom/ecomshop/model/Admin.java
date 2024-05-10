@@ -11,22 +11,18 @@ import jakarta.persistence.Table;
 @Table(name = "admin")
 public class Admin {
 
-    // ATTRIBUTS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long userId; // Consider renaming to 'id' to match the standard naming convention
 
     @Column(nullable = false, length = 255)
     private String username;
+
     @Column(nullable = false, length = 255)
     private String password;
 
-    // Constructors
     public Admin() {
     }
-
-    // Getters and Setters
-    /* ********************** UTILISATEUR ID START  ********************** */
 
     public Long getUserId() {
         return userId;
@@ -35,18 +31,14 @@ public class Admin {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-    /* ********************** UTILISATEUR ID END  ********************** */
-    /* ********************** UTILISATEUR NOM START  ********************** */
 
     public String getUsername() {
         return username;
     }
 
-    public void setNom(String username) {
+    public void setUsername(String username) { // Corrected method name from setNom to setUsername
         this.username = username;
     }
-    /* ********************** UTILISATEUR NOM END  ********************** */
-    /* ********************** UTILISATEUR PASSWORD START  ********************** */
 
     public String getPassword() {
         return password;
@@ -55,6 +47,5 @@ public class Admin {
     public void setPassword(String password) {
         this.password = password;
     }
-    /* ********************** UTILISATEUR PASSWORD END  ********************** */
 
 }

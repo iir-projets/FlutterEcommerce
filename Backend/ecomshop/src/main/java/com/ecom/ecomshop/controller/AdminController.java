@@ -14,7 +14,7 @@ public class AdminController {
     @Autowired
     private AdminRepository adminRepository;
 
-    @PostMapping("/connexion")
+    @PostMapping("/admin/connexion") // Changed path to ensure no conflict
     public String connexion(@RequestBody Admin admin) {
         Admin adminFromDB = adminRepository.findByUsernameAndPassword(admin.getUsername(), admin.getPassword());
         if (adminFromDB != null) {
@@ -23,5 +23,4 @@ public class AdminController {
             return "Identifiants incorrects";
         }
     }
-
 }

@@ -1,12 +1,11 @@
 package com.ecom.ecomshop.repository;
 
 import com.ecom.ecomshop.model.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class AdminRepository {
+@Repository
+public interface AdminRepository extends JpaRepository<Admin, Long> {
 
-    public Admin findByUsernameAndPassword(String username, String password) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByUsernameAndPassword'");
-    }
-    
+    Admin findByUsernameAndPassword(String username, String password);
 }

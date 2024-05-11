@@ -13,12 +13,12 @@ class MyStorage extends GetxService {
 
   Future SaveUser(User user) async {
     try {
-      await prefs!.setInt("id", user.id);
+      await prefs!.setInt("user_id", user.user_id);
       await prefs!.setString("email", user.email);
-      await prefs!.setString("name", user.name);
+      await prefs!.setString("nom", user.nom);
       await prefs!.setString("prenom", user.prenom);
-      await prefs!.setString("phone", user.Phone);
-      await prefs!.setString("adress", user.adress);
+      await prefs!.setString("telephone", user.telephone);
+      await prefs!.setString("adresse", user.adresse);
       print("data user is saved");
     } catch (e) {
       print("error:$e");
@@ -27,14 +27,14 @@ class MyStorage extends GetxService {
 
   getUser() {
     try {
-      int id = prefs!.getInt("id")!;
-      String name = prefs!.getString("name")!;
+      int user_id = prefs!.getInt("user_id")!;
+      String nom = prefs!.getString("nom")!;
       String prenom = prefs!.getString("prenom")!;
       String email = prefs!.getString("email")!;
-      String phone = prefs!.getString("phone")!;
-      String adress = prefs!.getString("adress")!;
+      String telephone = prefs!.getString("telephone")!;
+      String adresse = prefs!.getString("adresse")!;
 
-      User user = User(id, name, prenom, email, adress, phone);
+      User user = User(user_id, nom, prenom, email, adresse, telephone);
 
       return user;
     } catch (e) {
@@ -45,12 +45,12 @@ class MyStorage extends GetxService {
 
   Future<bool?> delete() async {
     try {
-      await prefs!.remove("id");
-      await prefs!.remove("name");
+      await prefs!.remove("user_id");
+      await prefs!.remove("nom");
       await prefs!.remove("prenom");
       await prefs!.remove("email");
-      await prefs!.remove("phone");
-      await prefs!.remove("adress");
+      await prefs!.remove("telephone");
+      await prefs!.remove("adresse");
       print("data user is deteled");
       return true;
     } catch (e) {

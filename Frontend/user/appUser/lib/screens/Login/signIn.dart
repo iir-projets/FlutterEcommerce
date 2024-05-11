@@ -124,14 +124,18 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           response
                               ? (
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => BottomNavBar()),
+                                      builder: (context) => BottomNavBar(),
+                                    ),
                                   ),
                                   loadWait = true
                                 )
-                              : loadWait = false;
+                              :
+                              // print("********************* login");
+                              // print(response);
+                              loadWait = false;
                         });
                       }
 

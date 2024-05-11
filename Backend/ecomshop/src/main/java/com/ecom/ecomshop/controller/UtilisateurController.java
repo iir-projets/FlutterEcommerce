@@ -1,8 +1,12 @@
 package com.ecom.ecomshop.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom.ecomshop.model.Utilisateur;
@@ -40,22 +45,29 @@ public class UtilisateurController {
     //         return "Identifiants incorrects";
     //     }
     // }
-    @PostMapping("/connexion")
-    public String connexion(@RequestParam("email") String email, @RequestParam("password") String password) {
-        // Retrieve the user by email
-        Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(email);
-        
-        if (utilisateurFromDB != null) {
-            // Verify the password matches
-            if (utilisateurFromDB.getPassword().equals(password)) {
-                return "Connexion réussie";
-            } else {
-                return "Mot de passe incorrect";
-            }
+   @PostMapping("/etud/connexion")
+@ResponseBody
+public ResponseEntity<String> connexion(@RequestParam("email") String email, @RequestParam("password") String password) {
+    // Retrieve the user by email
+    Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(email);
+    
+    if (utilisateurFromDB != null) {
+        // Verify the password matches
+        if (utilisateurFromDB.getPassword().equals(password)) {
+            // Create a JSON response
+            String data="{\"login\" : true,\"user\" : "+ utilisateurFromDB.toJson()+" }";
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(data);
+            
         } else {
-            return "Adresse email non trouvée";
+            // Return 401 Unauthorized status for incorrect password
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect");
         }
+    } else {
+        // Return 404 Not Found status for email not found
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adresse email non trouvée");
     }
+}
+
     @PostMapping("/inscription")
     public String inscription(@RequestBody Utilisateur utilisateur) {
         Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(utilisateur.getEmail());

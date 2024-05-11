@@ -109,5 +109,13 @@ public class Utilisateur {
         this.password = password;
     }
     /* ********************** UTILISATEUR PASSWORD END  ********************** */
+    /* ********************** TO JSON START  ********************** */
+    public String toJson() {
+        return "{\"user_id\": " + this.userId + ", \"nom\": \"" + this.nom + "\", \"prenom\": \"" + this.prenom + "\", \"email\": \"" + this.email + "\", \"adresse\": \"" + this.address + "\", \"telephone\": \"" + this.telephone + "\"}";
+    }    
+    
+    /* ********************** TO JSON END  ********************** */
+
+
 
 }

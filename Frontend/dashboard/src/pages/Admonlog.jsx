@@ -7,10 +7,11 @@ const Adminlog = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const backendUrl = 'http://localhost:8085';
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/admin/connexion", { username, password });
+      const response = await axios.post(`${backendUrl}/admin/connexion`, { username, password }); // Use template literal
       if (response.data === "Connexion réussie") {
         // Navigate to "/ecommerce" if login is successful
         navigate("/ecommerce");

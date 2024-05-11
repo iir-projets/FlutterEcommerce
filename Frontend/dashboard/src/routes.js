@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Ecommerce, Orders, Calendar, Employees,Products, Stacked, Pyramid, Customers, Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor, Adminlog } from "./pages";
+import { Ecommerce, Orders, Categories,AddProduct, Calendar, Employees,Products, Stacked, Pyramid, Customers, Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor, Adminlog } from "./pages";
 import App from './App'
 const AppRoutes = () => {
   return (
@@ -14,6 +14,8 @@ const AppRoutes = () => {
       <Route path="/employees" element={<Employees />} />
       <Route path="/customers" element={<Customers />} />
       <Route path="/Products" element={<Products />} />
+      <Route path="/categories" element={<Categories /> }/>
+      <Route path="/AddProduct" element={<AddProduct /> }/>
 
       {/* Apps */}
       <Route path="/kanban" element={<Kanban />} />

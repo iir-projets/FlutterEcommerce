@@ -1,8 +1,11 @@
+import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/constants.dart';
+import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:ecommerce_mobile_app/screens/Cart/cart_screen.dart';
 import 'package:ecommerce_mobile_app/screens/Home/home_screen.dart';
 import 'package:ecommerce_mobile_app/screens/Profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'Favorite/favorite.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -14,6 +17,8 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   int cuttentIndex = 2;
+  MyStorage storage = Get.find();
+  late User utilisateur;
   List screens = const [
     Scaffold(),
     Favorite(),
@@ -21,6 +26,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
     CartScreen(),
     Profile(),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    utilisateur = storage.getUser();
+    print("777777777777777777777777777777");
+    print(utilisateur.adresse);
+    super.initState();
+  }
+
+  // declarer une variable bhal f login (loadWait) flowal ghaykon true (bach njibo data mn database)
+  // f scaffold fih ghandir ila kant loadwait == true ? loadding : scaffold(....
+  // mn b3d nemchi l inistate o an3iyat ela la fonction li katjib data 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

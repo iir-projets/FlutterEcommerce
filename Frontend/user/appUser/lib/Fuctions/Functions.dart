@@ -9,29 +9,32 @@ import 'package:http/http.dart' as http;
 import 'package:connectivity/connectivity.dart';
 
 var headers = {'Accept': 'application/json'};
+String urlAPI = "http://192.168.56.1:8080/etud";
 
 // function bach dir login
 Future<bool> Login(String email, String password) async {
   var body = {'email': email, 'password': password};
   try {
     if (await CheckInternet()) {
-      // var response = await http.post(Uri.parse("Urlapi/connexion"),
-      //     headers: {'Accept': 'application/json'}, body: body);
-      // if (response.statusCode == 200 || response.statusCode == 201) {
-
-      // star 18 19 20 ghadi tremplacihom b hada li lta7t"if (1 == 1) {"
-      if (1 == 1) {
+      var response = await http.post(Uri.parse("${urlAPI}/connexion"),
+          headers: {'Accept': 'application/json'}, body: body);
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 202) {
+        // pour afficher data
+        // print(response.body);
+        print(response.body);
+        print(
+            "////////////////////////////////////////////////////////////////////////////////");
         MyStorage storage = Get.find();
-        // var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-        if (email == "email@gmail.com" && password == "12345678") {
+        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        if (jsonResponse["login"] == true) {
           print("login seccessufly");
           //////////////////////////////////////////////////////////////////////////
           // fhad lblassa ghadi t9adi data ou diriha f variable samih user
-          User user = User(1, "yahya", "bouibi", "email@gmail.com", "adress",
-              "+212+548d5d69");
+          User user = User.fromJson(jsonResponse["user"]);
           await storage.SaveUser(user);
           print("login seccess");
-
           //////////////////////////////////////////////////////////////////////////////
           return true;
         } else {
@@ -109,3 +112,6 @@ validateInput(String val, int max, int min, String type) {
   }
   return null;
 }
+
+
+// creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

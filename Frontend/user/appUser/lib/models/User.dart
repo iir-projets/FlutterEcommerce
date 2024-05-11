@@ -1,17 +1,29 @@
 class User {
-  final int id;
-  final String name;
+  final int user_id;
+  final String nom;
   final String prenom;
   final String email;
-  final String adress;
-  final String Phone;
+  final String adresse;
+  final String telephone;
 
   User(
-    this.id,
-    this.name,
+    this.user_id,
+    this.nom,
     this.prenom,
     this.email,
-    this.adress,
-    this.Phone,
+    this.adresse,
+    this.telephone,
   );
+
+// nefs lhaja banisba l product model 
+  static User fromJson(Map<String, dynamic> json) {
+    return User(
+      json['user_id'],
+      json['nom'],
+      json['prenom'],
+      json['email'],
+      json['adresse'],
+      json['telephone'],
+    );
+  }
 }

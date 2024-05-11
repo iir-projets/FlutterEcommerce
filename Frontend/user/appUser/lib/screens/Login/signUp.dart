@@ -200,6 +200,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _loading = true;
       });
 
+      // // Imprimer les informations avant de les envoyer à l'API
+      // print('Nom: ${_nomController.text}');
+      // print('Prénom: ${_prenomController.text}');
+      // print('Email: ${_emailController.text}');
+      // print('Téléphone: ${_telephoneController.text}');
+      // print('Adresse: ${_adresseController.text}');
+      // print('Mot de passe: ${_passwordController.text}');
+
+      // Envoyer les données à l'API
       bool success = await register(
         _nomController.text,
         _prenomController.text,

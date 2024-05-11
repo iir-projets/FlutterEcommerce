@@ -118,44 +118,48 @@ validateInput(String val, int max, int min, String type) {
 Future<bool> register(String nom, String prenom, String email, String password,
     String adresse, String telephone) async {
   var body = {
-    'nom': nom,
-    'prenom': prenom,
-    'email': email,
-    'password': password,
-    'adresse': adresse,
-    'telephone': telephone,
+    "address": adresse,
+    "email": email,
+    "nom": nom,
+    "password": password,
+    "prenom": prenom,
+    "telephone": telephone
   };
 
   try {
     if (await CheckInternet()) {
-      var response = await http.post(Uri.parse("$urlAPI/register"),
-          headers: {'Accept': 'application/json'}, body: body);
+      var response = await http.post(Uri.parse("$urlAPI/inscription"),
+          headers: {
+            'Content-Type': 'application/json', // Ajout du type de contenu
+            'Accept': 'application/json'
+          },
+          body: jsonEncode(body)); // Encodage du corps de la requête en JSON
+
+      print(response.body);
+
       if (response.statusCode == 200 ||
           response.statusCode == 201 ||
           response.statusCode == 202) {
-        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-        if (jsonResponse["register"] == true) {
-          print("Registration successful");
-          return true;
-        } else {
-          MySnackbar.Warnning("Registration failed");
-          print("Registration failed");
-          return false;
-        }
+        print("Inscription réussie");
+        return true;
       } else {
-        MySnackbar.Warnning("Server Error");
+        print(response.statusCode);
+        print("Erreur lors de la requête");
+        // MySnackbar.Warnning("Erreur du serveur");
         return false;
       }
     } else {
-      MySnackbar.Warnning("Check your connection");
+      MySnackbar.Warnning("Veuillez vérifier votre connexion");
       return false;
     }
   } catch (e) {
-    print("An error occurred: $e");
-    MySnackbar.Warnning("Some problem occurred, please try again later");
+    print("Une erreur s'est produite: $e");
+    MySnackbar.Warnning(
+        "Un problème est survenu, veuillez réessayer plus tard");
     return false;
   }
 }
+
 
 
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

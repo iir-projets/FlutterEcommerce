@@ -67,14 +67,14 @@ public class UtilisateurController {
 //     "prenom": "batrahi",
 //     "telephone": "728288223"
 //   }
-    @PostMapping("/user/inscription")
-    public String inscription(@RequestParam Utilisateur utilisateur) {
+@PostMapping("/user/inscription")
+    public ResponseEntity<String> inscription(@RequestBody Utilisateur utilisateur) {
         Utilisateur utilisateurFromDB = utilisateurRepository.findByEmail(utilisateur.getEmail());
         if (utilisateurFromDB != null) {
-            return "Adresse e-mail déjà utilisée";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Adresse e-mail déjà utilisée");
         } else {
             utilisateurRepository.save(utilisateur);
-            return "Inscription réussie";
+            return ResponseEntity.status(HttpStatus.CREATED).body("Inscription réussie");
         }
     }
 

@@ -18,6 +18,7 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, Sidebar } from "../components";
 import Categories from "./categories";
+import AddProduct from "./AddProduct";
 
 import { ordersData, contextMenuItems, ordersGrid} from "../data/dummy";
 import { Header } from "../components";
@@ -54,6 +55,7 @@ const Products = () => {
           <Navbar />
         </div>
         <Categories />
+        <AddProduct />
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
           <Header category="Page" title="Products" />
           <GridComponent
@@ -68,7 +70,7 @@ const Products = () => {
           >
             <ColumnsDirective>
               {ordersGrid.map((item, index) => (
-                <ColumnDirective key={index} {...item} />
+                <ColumnDirective key={index} {...item}  />
               ))}
             </ColumnsDirective>
             <Inject

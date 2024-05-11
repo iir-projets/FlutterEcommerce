@@ -1,8 +1,28 @@
-import React from "react";
-// import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Adminlog = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("/admin/connexion", { username, password });
+      if (response.data === "Connexion réussie") {
+        // Navigate to "/ecommerce" if login is successful
+        navigate("/ecommerce");
+      } else {
+        alert("Identifiants incorrects");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("An error occurred during login.");
+    }
+  };
+
   return (
     <section className="vh-100" style={{ backgroundColor: "#c2a0a7" }}>
       <div className="container py-5 h-100">
@@ -21,15 +41,15 @@ const Adminlog = () => {
                     </div>
                     <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>Sign into your account</h5>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <input type="email" id="form2Example17" className="form-control form-control-lg" />
-                      <label className="form-label" htmlFor="form2Example17">Email address</label>
+                      <input type="email" id="username" className="form-control form-control-lg" value={username} onChange={(e) => setUsername(e.target.value)} />
+                      <label className="form-label" htmlFor="username">Email address</label>
                     </div>
                     <div data-mdb-input-init className="form-outline mb-4">
-                      <input type="password" id="form2Example27" className="form-control form-control-lg" />
-                      <label className="form-label" htmlFor="form2Example27">Password</label>
+                      <input type="password" id="password" className="form-control form-control-lg" value={password} onChange={(e) => setPassword(e.target.value)} />
+                      <label className="form-label" htmlFor="password">Password</label>
                     </div>
                     <div className="pt-1 mb-4">
-                      <button className="btn btn-dark btn-lg btn-block">Login</button>
+                      <button className="btn btn-dark btn-lg btn-block" onClick={handleLogin}>Login</button>
                     </div>
                   </div>
                 </div>

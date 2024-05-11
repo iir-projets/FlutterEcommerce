@@ -15,8 +15,8 @@ class User {
     this.telephone,
   );
 
-// nefs lhaja banisba l product model 
-  static User fromJson(Map<String, dynamic> json) {
+  // Méthode factory pour convertir JSON en User
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
       json['user_id'],
       json['nom'],
@@ -25,5 +25,17 @@ class User {
       json['adresse'],
       json['telephone'],
     );
+  }
+
+  // Méthode pour convertir User en JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'user_id': user_id,
+      'nom': nom,
+      'prenom': prenom,
+      'email': email,
+      'adresse': adresse,
+      'telephone': telephone,
+    };
   }
 }

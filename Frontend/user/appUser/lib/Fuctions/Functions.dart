@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:connectivity/connectivity.dart';
 
 var headers = {'Accept': 'application/json'};
-String urlAPI = "http://192.168.56.1:8080/etud";
+String urlAPI = "http://192.168.56.1:8081/etud";
 
 // function bach dir login
 Future<bool> Login(String email, String password) async {
@@ -44,7 +44,7 @@ Future<bool> Login(String email, String password) async {
           return false;
         }
       } else {
-        MySnackbar.Warnning("Error de serveur");
+        MySnackbar.Warnning("email ou Mot de passe incorrect");
         return false;
       }
     } else {

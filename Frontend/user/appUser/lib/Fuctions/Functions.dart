@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 var headers = {'Accept': 'application/json'};
 String urlAPI = "http://192.168.56.1:8081/user";
 
+/**************************************************** LOGIN START ****************************************************/
 // function bach dir login
 Future<bool> Login(String email, String password) async {
   var body = {'email': email, 'password': password};
@@ -57,6 +58,7 @@ Future<bool> Login(String email, String password) async {
     return false;
   }
 }
+/**************************************************** LOGIN END ****************************************************/
 
 //  function CheckInternet bach tchof wach kayna connexions
 Future<bool> CheckInternet() async {
@@ -98,17 +100,19 @@ validateInput(String val, int max, int min, String type) {
   return null;
 }
 
+/**************************************************** REGISTER START ****************************************************/
+
 // Register User :
 // Fonction pour l'inscription d'un utilisateur
-Future<bool> register(String nom, String prenom, String email, String password,
-    String adresse, String telephone) async {
+Future<bool> register(String nom, String prenom, String email, String telephone,
+    String adresse, String password) async {
   var body = {
-    "address": adresse,
-    "email": email,
     "nom": nom,
-    "password": password,
     "prenom": prenom,
-    "telephone": telephone
+    "email": email,
+    "telephone": telephone,
+    "address": adresse,
+    "password": password,
   };
 
   try {
@@ -145,6 +149,63 @@ Future<bool> register(String nom, String prenom, String email, String password,
   }
 }
 
+/**************************************************** REGISTER END ****************************************************/
 
+// Fonction pour récupérer les détails de l'utilisateur connecté
+Future<User> getUserDetails() async {
+  MyStorage storage = Get.find();
+  return await storage.getUser();
+}
+
+/**************************************************** EDIT START ****************************************************/
+
+// Fonction pour envoyer les modifications du profil de l'utilisateur
+// Fonction pour envoyer les modifications du profil de l'utilisateur
+Future<bool> editProfile(User user) async {
+  var body = {
+    "user_id": user.user_id.toString(),
+  };
+
+  // Compare the new values with the old values and include only the changed fields
+  if (user.nom != null) body["nom"] = user.nom;
+  if (user.prenom != null) body["prenom"] = user.prenom;
+  if (user.email != null) body["email"] = user.email;
+  if (user.telephone != null) body["telephone"] = user.telephone;
+  if (user.adresse != null) body["address"] = user.adresse;
+
+  try {
+    if (await CheckInternet()) {
+      var response = await http.put(
+          Uri.parse("$urlAPI/editProfile/${user.user_id}"),
+          headers: {
+            'Content-Type': 'application/json', // Ajout du type de contenu
+            'Accept': 'application/json'
+          },
+          body: jsonEncode(body)); // Encodage du corps de la requête en JSON
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        print("Profil modifié avec succès");
+        return true;
+      } else {
+        print(response.statusCode);
+        print("Erreur lors de la requête");
+        return false;
+      }
+    } else {
+      MySnackbar.Warnning("Veuillez vérifier votre connexion");
+      return false;
+    }
+  } catch (e) {
+    print("Une erreur s'est produite: $e");
+    MySnackbar.Warnning(
+        "Un problème est survenu, veuillez réessayer plus tard");
+    return false;
+  }
+}
+
+
+/**************************************************** EDIT END ****************************************************/ 
 
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

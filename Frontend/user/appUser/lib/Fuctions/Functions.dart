@@ -60,23 +60,8 @@ Future<bool> Login(String email, String password) async {
 
 //  function CheckInternet bach tchof wach kayna connexions
 Future<bool> CheckInternet() async {
-  try {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    final result = await InternetAddress.lookup('google.com');
-    if ((connectivityResult == ConnectivityResult.mobile ||
-            connectivityResult == ConnectivityResult.wifi) &&
-        result.isNotEmpty &&
-        result[0].rawAddress.isNotEmpty) {
-      print("You have internet connectivity");
-      return true;
-    } else {
-      print("You don't have internet connectivity");
-      return false;
-    }
-  } catch (e) {
-    print("Error checking internet connectivity: $e");
-    return false;
-  }
+  var connectivityResult = await Connectivity().checkConnectivity();
+  return connectivityResult != ConnectivityResult.none;
 }
 
 //pour initialiser storage

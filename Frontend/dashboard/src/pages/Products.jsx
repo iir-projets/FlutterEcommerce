@@ -17,8 +17,9 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, Sidebar } from "../components";
+import Categories from "./categories";
 
-import { ordersData, contextMenuItems, ordersGrid } from "../data/dummy";
+import { ordersData, contextMenuItems, ordersGrid} from "../data/dummy";
 import { Header } from "../components";
 const Products = () => {
   const { activeMenu, setThemeSettings, currentColor } = useStateContext();
@@ -52,8 +53,9 @@ const Products = () => {
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
           <Navbar />
         </div>
+        <Categories />
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-          <Header category="Page" title="Orders" />
+          <Header category="Page" title="Products" />
           <GridComponent
             id="gridcomp"
             dataSource={ordersData}

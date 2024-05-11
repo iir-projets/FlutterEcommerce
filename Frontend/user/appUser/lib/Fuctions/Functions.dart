@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:connectivity/connectivity.dart';
 
 var headers = {'Accept': 'application/json'};
-String urlAPI = "http://192.168.56.1:8080/etud";
+String urlAPI = "http://192.168.56.1:8081/user";
 
 // function bach dir login
 Future<bool> Login(String email, String password) async {
@@ -44,7 +44,7 @@ Future<bool> Login(String email, String password) async {
           return false;
         }
       } else {
-        MySnackbar.Warnning("Error de serveur");
+        MySnackbar.Warnning("email ou Mot de passe incorrect");
         return false;
       }
     } else {
@@ -96,6 +96,50 @@ validateInput(String val, int max, int min, String type) {
     return "can't be more than $max";
   }
   return null;
+}
+
+// Register User :
+// Fonction pour l'inscription d'un utilisateur
+Future<bool> register(String nom, String prenom, String email, String password,
+    String adresse, String telephone) async {
+  var body = {
+    'nom': nom,
+    'prenom': prenom,
+    'email': email,
+    'password': password,
+    'adresse': adresse,
+    'telephone': telephone,
+  };
+
+  try {
+    if (await CheckInternet()) {
+      var response = await http.post(Uri.parse("$urlAPI/register"),
+          headers: {'Accept': 'application/json'}, body: body);
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 202) {
+        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        if (jsonResponse["register"] == true) {
+          print("Registration successful");
+          return true;
+        } else {
+          MySnackbar.Warnning("Registration failed");
+          print("Registration failed");
+          return false;
+        }
+      } else {
+        MySnackbar.Warnning("Server Error");
+        return false;
+      }
+    } else {
+      MySnackbar.Warnning("Check your connection");
+      return false;
+    }
+  } catch (e) {
+    print("An error occurred: $e");
+    MySnackbar.Warnning("Some problem occurred, please try again later");
+    return false;
+  }
 }
 
 

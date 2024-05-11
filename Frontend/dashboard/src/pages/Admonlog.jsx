@@ -7,7 +7,7 @@ const Adminlog = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const backendUrl = 'http://192.168.56.1:8081';
+  const backendUrl = 'http://localhost:8085';
 
   const handleLogin = async () => {
     try {

@@ -27,7 +27,7 @@ steps:
 
   - script: |
       echo Building and testing React dashboard...
-      cd Frontend/dashboard  # This assumes your React project is in the 'dashboard' subdirectory under 'Frontend'
+      cd  iir-projets/FlutterEcommerce/Frontend/dashboard  # This assumes your React project is in the 'dashboard' subdirectory under 'Frontend'
       npm install
       npm run build
       npm test
@@ -41,7 +41,7 @@ steps:
 
   - script: |
       echo Building and testing Spring Boot application...
-      cd Backend/ecomshop  # This path leads to the 'ecomshop' subdirectory under 'Backend'
+      cd  iir-projets/FlutterEcommerce/Backend/ecomshop  # This path leads to the 'ecomshop' subdirectory under 'Backend'
       ./mvnw clean install
     displayName: 'Build and test Spring Boot app'
     continueOnError: true

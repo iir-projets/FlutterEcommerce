@@ -1,4 +1,4 @@
-# E-commerce Boutique en Ligne
+# E-commerce Boutique en Ligne Flutter
 
 ## Description
 Cette application de boutique en ligne permet aux entreprises de vendre leurs produits directement aux consommateurs via Internet. Les fonctionnalités incluent la navigation dans le catalogue de produits, l'ajout au panier, un paiement en ligne sécurisé, et la gestion des commandes.

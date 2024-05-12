@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Adminlog = () => {
+const AdminSignUp = () => {
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const backendUrl = 'http://192.168.56.1:8081';
 
-  const handleLogin = async () => {
+  const handlesignup = async () => {
     try {
-      const response = await axios.post(`${backendUrl}/admin/connexion`, { username, password });
-      if (response.data === "Connexion réussie") {
-        navigate("/ecommerce");
+      const response = await axios.post(`${backendUrl}/admin/register`, { email, username, password }); // Use template literal
+      if (response.status === 200) {
+        console.log("Registration successful");
       } else {
-        alert("Identifiants incorrects");
+        console.log("Registration failed"); 
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      alert("An error occurred during login.");
+      console.error("Error during registration:", error);
     }
   };
 
@@ -39,7 +38,11 @@ const Adminlog = () => {
                       <i className="fas fa-cubes fa-2x me-3" style={{ color: "#ccb0b6" }}></i>
                       <span className="h1 fw-bold mb-0">Logo</span>
                     </div>
-                    <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>Sign into your account</h5>
+                    <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>Sign Up your account</h5>
+                    <div data-mdb-input-init className="form-outline mb-4">
+                      <input type="email" id="email" className="form-control form-control-lg" value={email} onChange={(e) => setEmail(e.target.value)} />
+                      <label className="form-label" htmlFor="username">Email address</label>
+                    </div>
                     <div data-mdb-input-init className="form-outline mb-4">
                       <input type="email" id="username" className="form-control form-control-lg" value={username} onChange={(e) => setUsername(e.target.value)} />
                       <label className="form-label" htmlFor="username">UserName</label>
@@ -49,7 +52,7 @@ const Adminlog = () => {
                       <label className="form-label" htmlFor="password">Password</label>
                     </div>
                     <div className="pt-1 mb-4">
-                      <button className="btn btn-dark btn-lg btn-block" onClick={handleLogin}>Login</button>
+                      <button className="btn btn-dark btn-lg btn-block" onClick={handlesignup}>SignUp</button>
                     </div>
                     <div className="pt-1 mb-4">
                       <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>Don't have an account?
@@ -67,4 +70,4 @@ const Adminlog = () => {
   );
 };
 
-export default Adminlog;
+export default AdminSignUp;

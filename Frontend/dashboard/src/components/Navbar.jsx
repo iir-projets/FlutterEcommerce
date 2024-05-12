@@ -25,6 +25,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
     </button>
   </TooltipComponent>
 );
+
 const Navbar = () => {
   const {
     setActiveMenu,
@@ -41,10 +42,12 @@ const Navbar = () => {
 
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [setScreenSize]); // Include setScreenSize in the dependency array
+
   useEffect(() => {
     setActiveMenu(screenSize <= 900 ? false : true);
-  }, [screenSize]);
+  }, [screenSize, setActiveMenu]); // Include screenSize and setActiveMenu in the dependency array
+
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <div className="flex">
@@ -76,7 +79,7 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
-            <img className="rounded-full w-8 h-8" src={avatar} />
+            <img className="rounded-full w-8 h-8" src={avatar} alt="Avatar" /> {/* Add alt attribute */}
             <p>
               <span className="text-gray-400 text-14">Hi, </span>{" "}
               <span className="text-gray-400 font-bold ml-1 text-14">

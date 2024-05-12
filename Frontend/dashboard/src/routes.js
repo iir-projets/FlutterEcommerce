@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Ecommerce, Orders, Categories,AddProduct,
   //  Calendar,
-    Employees,Products, 
+    Employees,Products,AdminSignUp,
     // Stacked, Pyramid,
      Customers,
       // Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor,
@@ -22,6 +22,7 @@ const AppRoutes = () => {
       <Route path="/Products" element={<Products />} />
       <Route path="/categories" element={<Categories /> }/>
       <Route path="/AddProduct" element={<AddProduct /> }/>
+      <Route path="/AdminSignUp" element={<AdminSignUp /> }/>
 
       {/* Apps */}
       {/* <Route path="/kanban" element={<Kanban />} />

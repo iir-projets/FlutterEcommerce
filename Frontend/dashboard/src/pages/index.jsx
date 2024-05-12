@@ -7,6 +7,7 @@ export { default as Customers } from './Customers';
 export { default as ColorPicker } from './ColorPicker';
 export { default as Calendar } from './Calendar';
 export { default as Adminlog } from './Admonlog';
+export { default as AdminSignUp } from './AdminSignUp';
 export { default as Categories } from './categories';
 export { default as AddProduct } from './AddProduct';
 export { default as Products } from './Products'

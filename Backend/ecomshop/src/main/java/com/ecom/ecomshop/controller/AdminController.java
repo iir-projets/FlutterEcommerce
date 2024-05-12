@@ -23,4 +23,14 @@ public class AdminController {
             return "Identifiants incorrects";
         }
     }
+    
+    @PostMapping("/admin/register") 
+    public String registerAdmin(@RequestBody Admin admin) {
+        Admin existingAdmin = adminRepository.findByUsername(admin.getUsername());
+        if (existingAdmin != null) {
+            return "Admin already exists";
+        }
+        adminRepository.save(admin);
+        return "Admin registered successfully";
+    }
 }

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
+import 'package:ecommerce_mobile_app/models/product_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -200,12 +202,54 @@ Future<bool> editProfile(User user) async {
     }
   } catch (e) {
     print("Une erreur s'est produite: $e");
-    MySnackbar.Warnning("Un problème est survenu, veuillez réessayer plus tard");
+    MySnackbar.Warnning(
+        "Un problème est survenu, veuillez réessayer plus tard");
     return false;
   }
 }
 
+/**************************************************** EDIT END ****************************************************/
+String urlAPIProduct = "http://192.168.56.1:8081";
 
-/**************************************************** EDIT END ****************************************************/ 
+Future<bool> checkAllProducts() async {
+  try {
+    if (await CheckInternet()) {
+      var response = await http.get(Uri.parse("$urlAPIProduct/articlesAll"),
+          headers: {'Accept': 'application/json'});
 
+      if (response.statusCode == 202) {
+        print(response.body);
+        // Attendez 5 secondes avant de vérifier à nouveau
+        return await checkAllProducts(); // Vérifiez à nouveau récursivement
+      } else if (response.statusCode == 200 || response.statusCode == 201) {
+        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        if (jsonResponse["status"] == true) {
+          List<dynamic> productsData = jsonResponse["products"];
+          List<Product> products = productsData
+              .map((productJson) => Product.fromJson(productJson))
+              .toList();
+          MyStorage storage = Get.find();
+          await storage.saveProduct(products as Product);
+          return true;
+        } else {
+          print("chi haja mahiyachhhhhhhhhhhhhhhhhh");
+          print(response.statusCode);
+          return false;
+        }
+      } else {
+        MySnackbar.Warnning("email ou Mot de passe incorrect product");
+        print(response.statusCode);
+        return false;
+      }
+    } else {
+      MySnackbar.Warnning("Check your internet connection product");
+      return false;
+    }
+  } catch (e) {
+    print("you have an error: $e");
+    MySnackbar.Warnning(
+        "Some problem occurred, please try again later product");
+    return false;
+  }
+}
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

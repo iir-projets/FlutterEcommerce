@@ -32,4 +32,3 @@ Cette application de boutique en ligne permet aux entreprises de vendre leurs pr
 
 ## Contribution
 Les contributions sont les bienvenues ! Merci de soumettre vos pull requests sur une branche `feature/` ou `bugfix/` en suivant les conventions de branche et de commit. Assurez-vous que vos modifications passent tous les tests unitaires.
-

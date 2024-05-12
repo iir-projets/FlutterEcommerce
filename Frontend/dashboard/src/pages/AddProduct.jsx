@@ -11,7 +11,7 @@ const AddProduct = () => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    const backendUrl = 'http://192.168.56.1:8083';
+    const backendUrl = 'http://192.168.56.1:8081';
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];

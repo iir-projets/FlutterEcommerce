@@ -12,6 +12,12 @@ import com.ecom.ecomshop.repository.ArticleRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,7 +35,8 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
-    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop", "img");
+    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop","src", "main", "resources", "static", "images");
+
 
     @jakarta.annotation.PostConstruct
     public void init() {
@@ -165,4 +172,22 @@ private String getBaseUrl() {
         articleRepository.deleteById(id);
         return "Article supprimé avec succès";
     }
-}
+
+
+    @GetMapping("/pagesArticles")
+    public Page<Article> getAllArticles(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        return articleRepository.findAll(pageable);
+
+            }
+
+            
+    }
+
+
+    
+    
+
+

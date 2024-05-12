@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState  } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { BsChatLeft } from "react-icons/bs";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import axios from "axios"; // Import axios
 
-import avatar from "../data/avatar5.jpeg";
+// import avatar from "../data/avatar5.jpeg";
 import { Chat, Notification, UserProfile } from "./";
 import { useStateContext } from "../contexts/ContextProvider";
 
@@ -48,6 +49,31 @@ const Navbar = () => {
     setActiveMenu(screenSize <= 900 ? false : true);
   }, [screenSize, setActiveMenu]); // Include screenSize and setActiveMenu in the dependency array
 
+  const backendUrl = 'http://192.168.56.1:8081'; // Define your backend URL
+
+  // State variables to store user information
+  const [user, setUser] = useState({
+    username: "",
+    email: ""
+  });
+
+  // Function to retrieve user ID from local storage
+  const getUserId = () => {
+    return localStorage.getItem('userId');
+  };
+  const fetchData = async () => {
+    const userId = getUserId();
+    try {
+      const response = await axios.get(`${backendUrl}/admin/profile?userId=${userId}`);
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="flex justify-between p-2 md:mx-6 relative">
       <div className="flex">
@@ -79,11 +105,10 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
-            <img className="rounded-full w-8 h-8" src={avatar} alt="Avatar" /> {/* Add alt attribute */}
             <p>
               <span className="text-gray-400 text-14">Hi, </span>{" "}
               <span className="text-gray-400 font-bold ml-1 text-14">
-                Liron
+                 {user.username}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />

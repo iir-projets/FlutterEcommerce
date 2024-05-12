@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.repository.ArticleRepository;
 
-
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,41 +38,54 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
-    @PostMapping("/article")
+    @GetMapping("/articles")
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
+    }
+
+    @PostMapping("/addArticle")
     public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
                                                  @RequestParam("description") String description,
                                                  @RequestParam("price") BigDecimal price,
-                                                 @RequestParam("image") MultipartFile imageFile) {
+                                                 @RequestParam(value = "image", required = false) MultipartFile imageFile) {
         try {
+            // Create and save the article to generate an ID
             Article article = new Article();
             article.setName(name);
             article.setDescription(description);
             article.setPrice(price);
-
+            article.setImage("default.jpg");  // Initially set to default image
+            article = articleRepository.save(article);  // Save to generate ID
+    
+            // Process and save the image if it's provided
             if (imageFile != null && !imageFile.isEmpty()) {
-                String imageName = saveImage(imageFile);
-                article.setImage(imageName);
+                String imageName = article.getId() + "." + getExtension(imageFile.getOriginalFilename());
+                Path targetLocation = rootLocation.resolve(imageName);
+                Files.copy(imageFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                article.setImage(imageName);  // Update article with the actual image name
+                articleRepository.save(article);  // Save the updated article
             }
-
-            articleRepository.save(article);
+    
             return ResponseEntity.ok("Article ajouté avec succès: " + article.getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to add article: " + e.getMessage());
         }
     }
-
-    private String saveImage(MultipartFile file) throws Exception {
-        String filename = UUID.randomUUID().toString() + "." + getExtension(file.getOriginalFilename());
-        Path targetLocation = rootLocation.resolve(filename);
-        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-        return filename;
-    }
-
+    
     private static String getExtension(String filename) {
-        return filename.substring(filename.lastIndexOf(".") + 1);
+        if (filename == null || filename.isEmpty()) {
+            return "";
+        }
+        int dotIndex = filename.lastIndexOf(".");
+        if (dotIndex >= 0) {
+            return filename.substring(dotIndex + 1);
+        } else {
+            return "";
+        }
     }
+    
 
-    @PutMapping("/article/{id}")
+    @PutMapping("/updateArticle/{id}")
     public String modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
@@ -97,7 +109,7 @@ public class ArticleController {
         }
     }
 
-    @DeleteMapping("/article/{id}")
+    @DeleteMapping("/dropArticle/{id}")
     public String supprimerArticle(@PathVariable Long id) {
         articleRepository.deleteById(id);
         return "Article supprimé avec succès";

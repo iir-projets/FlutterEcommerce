@@ -1,10 +1,10 @@
 class User {
-  final int user_id;
-  late final String nom;
-  late final String prenom;
-  late final String email;
-  late final String adresse;
-  late final String telephone;
+  int user_id;
+  String nom;
+  String prenom;
+  String email;
+  String adresse;
+  String telephone;
   late final String password;
 
   User(this.user_id, this.nom, this.prenom, this.email, this.adresse,

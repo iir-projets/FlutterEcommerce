@@ -56,7 +56,7 @@ const AdminSignUp = () => {
                     </div>
                     <div className="pt-1 mb-4">
                       <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>Don't have an account?
-                        <Link to="/AdminSignUp" style={{ color: "#393f81" }}>Register here</Link>
+                        <Link to="/" style={{ color: "#393f81" }}>Register here</Link>
                       </p>
                     </div>
                   </div>

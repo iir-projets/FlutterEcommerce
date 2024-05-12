@@ -1,6 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Ecommerce, Orders, Categories,AddProduct, Calendar, Employees,Products, Stacked, Pyramid, Customers, Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor, Adminlog } from "./pages";
+import { Ecommerce, Orders, Categories,AddProduct,
+  //  Calendar,
+    Employees,Products, 
+    // Stacked, Pyramid,
+     Customers,
+      // Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor,
+       Adminlog } from "./pages";
 import App from './App'
 const AppRoutes = () => {
   return (
@@ -18,20 +24,20 @@ const AppRoutes = () => {
       <Route path="/AddProduct" element={<AddProduct /> }/>
 
       {/* Apps */}
-      <Route path="/kanban" element={<Kanban />} />
+      {/* <Route path="/kanban" element={<Kanban />} />
       <Route path="/editor" element={<Editor />} />
       <Route path="/calendar" element={<Calendar />} />
-      <Route path="/color-picker" element={<ColorPicker />} />
+      <Route path="/color-picker" element={<ColorPicker />} /> */}
 
       {/* Charts */}
-      <Route path="/line" element={<Line />} />
+      {/* <Route path="/line" element={<Line />} />
       <Route path="/area" element={<Area />} />
       <Route path="/bar" element={<Bar />} />
       <Route path="/pie" element={<Pie />} />
       <Route path="/financial" element={<Financial />} />
       <Route path="/color-mapping" element={<ColorMapping />} />
       <Route path="/pyramid" element={<Pyramid />} />
-      <Route path="/stacked" element={<Stacked />} />
+      <Route path="/stacked" element={<Stacked />} /> */}
     </Routes>
   );
 };

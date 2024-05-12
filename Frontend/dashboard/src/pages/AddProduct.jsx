@@ -11,21 +11,25 @@ const AddProduct = () => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
-    const backendUrl = 'http://192.168.56.1:8081';
+    const backendUrl = 'http://192.168.56.1:8083';
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setImage(file);
     };
-
+    
     const handleAddArticle = async () => {
         try {
             const formData = new FormData();
             formData.append('name', name);
-            formData.append('desc', description);
+            formData.append('description', description);
             formData.append('price', parseFloat(price));
-            formData.append('image', image);
-
+    
+            // Check if image is present before appending
+            if (image) {
+                formData.append('image', image);
+            }
+    
             const response = await axios.post(`${backendUrl}/article`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

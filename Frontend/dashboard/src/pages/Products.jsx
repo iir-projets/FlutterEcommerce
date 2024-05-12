@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import {
   GridComponent,
   ColumnsDirective,
@@ -20,10 +20,33 @@ import { Navbar, Footer, Sidebar } from "../components";
 import Categories from "./categories";
 import AddProduct from "./AddProduct";
 
-import { ordersData, contextMenuItems, ordersGrid} from "../data/dummy";
+import { contextMenuItems,ordersGrid} from "../data/data";
 import { Header } from "../components";
 const Products = () => {
   const { activeMenu, setThemeSettings, currentColor } = useStateContext();
+
+  const [ordersData, setOrdersData] = useState([]);
+  useEffect(() => {
+    // Function to fetch data from the backend API
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://192.168.56.1:8083/testConnection');
+        if (response.ok) {
+          const data = await response.json();
+          setOrdersData(data); 
+        } else {
+          console.error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Call the fetch data function when component mounts
+  }, []);
+
+
+
   return (
     <div className="flex relative dark:bg-main-dark-bg">
       <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>

@@ -3,8 +3,13 @@ package com.ecom.ecomshop.controller;
 import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,15 +19,40 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
+    private static final String UPLOAD_PATH = "C:/Users/21262/Desktop/e-commerce flutter/FlutterEcommerce/Frontend/dashboard/src/assets/products/";
+
     @GetMapping("/testConnection")
     public List<Article> testConnection() {
         return articleRepository.findAll();
     }
 
     @PostMapping("/article")
-    public String ajouterArticle(@RequestBody Article article) {
-        articleRepository.save(article);
-        return "Article ajouté avec succès";
+    @CrossOrigin
+    public ResponseEntity<String> ajouterArticle(@RequestParam("image") MultipartFile file,
+                                                 @RequestParam String name, @RequestParam String description, @RequestParam BigDecimal price) {
+
+        String fileName = file.getOriginalFilename();
+        System.out.println(name);
+        System.out.println(description);
+        System.out.println(fileName);
+        try {
+            file.transferTo(new File(UPLOAD_PATH + fileName));
+
+            // Create a new Article object and set its properties
+            Article article = new Article();
+            article.setName(name);
+            article.setDescription(description);
+            article.setPrice(price);
+            article.setImagePath(fileName); // Set the image path
+
+            // Save the Article object to the database
+            articleRepository.save(article);
+
+            return ResponseEntity.ok("File uploaded successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PutMapping("/article/{id}")
@@ -39,9 +69,7 @@ public class ArticleController {
             if (articleModifie.getPrice() != null) {
                 article.setPrice(articleModifie.getPrice());
             }
-            if (articleModifie.getImage() != null) {
-                article.setImage(articleModifie.getImage());
-            }
+            // The image path is not modified here because it's assumed that you won't modify the image path directly in a PUT request
             articleRepository.save(article);
             return "Article modifié avec succès";
         } else {

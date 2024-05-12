@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 @Table(name = "article")
 public class Article {
 
-    // ATTRIBUTS
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
@@ -24,19 +23,15 @@ public class Article {
     @Column(length = 500)
     private String description;
 
-    // hadik precision pour stocker 10 chiffres au total o scale: 2 apres la virgule
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(nullable = false) // Vous pouvez ajuster les paramètres en fonction de vos besoins
-    private byte[] image; // Utilisation d'un tableau de bytes pour stocker l'image
+    @Column(nullable = false)
+    private String imagePath; // Store the path or URL of the image
 
-    // Constructors
     public Article() {
     }
 
-    // Getters and Setters
-    /* ********************** ID ARTICLE START  ********************** */
     public Long getArticleId() {
         return articleId;
     }
@@ -44,9 +39,7 @@ public class Article {
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
     }
-    /* ********************** ID ARTICLE END  ********************** */
 
-    /* ********************** NAME START  ********************** */
     public String getName() {
         return name;
     }
@@ -54,9 +47,7 @@ public class Article {
     public void setName(String name) {
         this.name = name;
     }
-    /* ********************** NAME END  ********************** */
 
-    /* ********************** DESCRIPTION START  ********************** */
     public String getDescription() {
         return description;
     }
@@ -64,8 +55,6 @@ public class Article {
     public void setDescription(String description) {
         this.description = description;
     }
-    /* ********************** DESCRIPTION END  ********************** */
-    /* ********************** PRICE START  ********************** */
 
     public BigDecimal getPrice() {
         return price;
@@ -74,16 +63,12 @@ public class Article {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-    /* ********************** PRICE END  ********************** */
 
-    /* ********************** IMAGE START  ********************** */
-    public byte[] getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
-    /* ********************** IMAGE END  ********************** */
-
 }

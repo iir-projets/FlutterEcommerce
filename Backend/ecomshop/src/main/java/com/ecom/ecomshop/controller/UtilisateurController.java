@@ -35,7 +35,7 @@ public class UtilisateurController {
         return utilisateurRepository.findById(user_id);
     }
     
-    @PostMapping("/user/etud/connexion")
+    @PostMapping("/user/connexion")
     @ResponseBody
     public ResponseEntity<String> connexion(@RequestParam("email") String email, @RequestParam("password") String password) {
         // Retrieve the user by email

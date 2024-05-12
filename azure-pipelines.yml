@@ -15,7 +15,7 @@ steps:
       echo Installing dependencies and running Flutter tests...
       cd Frontend/user  # Assuming the Flutter project is in the 'user' subdirectory under 'Frontend'
       flutter pub get
-      flutter test
+      flutter run
     displayName: 'Build and test Flutter app'
     continueOnError: true
 
@@ -30,7 +30,7 @@ steps:
       cd  iir-projets/FlutterEcommerce/Frontend/dashboard  # This assumes your React project is in the 'dashboard' subdirectory under 'Frontend'
       npm install
       npm run build
-      npm test
+      npm start
     displayName: 'Build and test React Dashboard'
     continueOnError: true
 

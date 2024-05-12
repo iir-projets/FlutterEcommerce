@@ -14,7 +14,7 @@ Cette application de boutique en ligne permet aux entreprises de vendre leurs pr
 1. **Clonez le Repository**
     - Clonez le projet en utilisant la commande :
     ```bash
-    git clone https://github.com/nom-utilisateur/ecommerce-boutique.git
+    git clone https://github.com/Safaamigo/FlutterEcommerce.git
     ```
 2. **Installez les Dépendances**
     - Accédez au répertoire du projet et installez les dépendances requises :

@@ -31,29 +31,25 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
     fetchUserData();
   }
 
- void fetchUserData() async {
-  setState(() => loadWait = true);
-  try {
-    currentUser = await getUserDetails();
-    print("Data fetched: ${currentUser.toJson()}");  // Ensure toJson() is implemented in User model to log this
-    setState(() {
-      nomController.text = currentUser.nom;
-      prenomController.text = currentUser.prenom;
-      emailController.text = currentUser.email;
-      telephoneController.text = currentUser.telephone;
-      adresseController.text = currentUser.adresse;
-    });
-  } catch (error) {
-    print("Failed to fetch user details: $error");
-  } finally {
-    setState(() => loadWait = false);
+  void fetchUserData() async {
+    setState(() => loadWait = true);
+    try {
+      currentUser = await getUserDetails();
+      print(
+          "Data fetched: ${currentUser.toJson()}"); // Ensure toJson() is implemented in User model to log this
+      setState(() {
+        nomController.text = currentUser.nom;
+        prenomController.text = currentUser.prenom;
+        emailController.text = currentUser.email;
+        telephoneController.text = currentUser.telephone;
+        adresseController.text = currentUser.adresse;
+      });
+    } catch (error) {
+      print("Failed to fetch user details: $error");
+    } finally {
+      setState(() => loadWait = false);
+    }
   }
-}
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +67,12 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SafeArea(
         child: Center(
@@ -123,8 +125,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Veuillez entrer votre adresse email';
-                      } else if (!RegExp(
-                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                      } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                           .hasMatch(value)) {
                         return 'Veuillez entrer une adresse email valide';
                       }
@@ -186,8 +187,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
                           fetchUserData();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                  'Profile updated successfully!'),
+                              content: Text('Profile updated successfully!'),
                               backgroundColor: Colors.green,
                             ),
                           );

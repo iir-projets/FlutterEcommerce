@@ -1,5 +1,6 @@
 package com.ecom.ecomshop.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.model.Utilisateur;
 import com.ecom.ecomshop.repository.UtilisateurRepository;
 
@@ -57,6 +59,7 @@ public class UtilisateurController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Adresse email non trouvée");
         }
     }
+ 
 
 // test b thunder b form ou json 
 // {

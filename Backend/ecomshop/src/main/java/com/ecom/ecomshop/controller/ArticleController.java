@@ -1,18 +1,25 @@
 package com.ecom.ecomshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.repository.ArticleRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,10 +45,54 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
-    @GetMapping("/articles")
-    public List<Article> getAllArticles() {
-        return articleRepository.findAll();
-    }
+    // @GetMapping("/articles")
+    // public List<Article> getAllArticles() {
+    //     return articleRepository.findAll();
+    // }
+
+//     @GetMapping("/articles")
+// public List<Article> getAllArticles() {
+//     List<Article> articles = articleRepository.findAll();
+//     articles.forEach(article -> {
+//         // Ajouter le chemin complet à l'image
+//         String imageName = article.getImage();
+//         String imageUrl = "img/" + imageName; // Chemin relatif
+//         String fullImageUrl = getBaseUrl() + imageUrl; // Chemin complet
+//         article.setImage(fullImageUrl);
+//     });
+//     return articles;
+// }
+
+@GetMapping("/articlesAll")
+public ResponseEntity<Object> getAllArticles() {
+    List<Article> articles = articleRepository.findAll();
+
+    // Parcourir chaque article pour ajouter le chemin complet de l'image
+    articles.forEach(article -> {
+        String imageName = article.getImage();
+        String imageUrl = "images/" + imageName; // Chemin complet de l'image
+        article.setImage(imageUrl);
+    });
+
+    // Créer un objet pour stocker le statut et les produits
+    Map<String, Object> responseData = new HashMap<>();
+
+    // Ajouter le statut à l'objet de réponse
+    responseData.put("status", "true");
+
+    // Ajouter la liste des produits à l'objet de réponse
+    responseData.put("products", articles);
+
+    // Retourner la réponse JSON avec le statut et les produits
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseData);
+}
+
+private String getBaseUrl() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    String baseUrl = request.getRequestURL().toString();
+    return baseUrl.substring(0, baseUrl.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+}
+
 
     @PostMapping("/addArticle")
     public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,

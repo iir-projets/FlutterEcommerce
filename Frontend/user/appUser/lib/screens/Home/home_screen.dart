@@ -1,18 +1,17 @@
-import 'dart:async';
-
+import 'package:ecommerce_mobile_app/Fuctions/Functions.dart';
 import 'package:ecommerce_mobile_app/models/product_model.dart';
-import 'package:ecommerce_mobile_app/screens/Home/Widget/product_cart.dart';
+import 'package:flutter/material.dart';
+import 'package:ecommerce_mobile_app/screens/Home/Widget/product_cart.dart'; // Assurez-vous d'importer correctement les fichiers nécessaires
 import 'package:ecommerce_mobile_app/screens/Home/Widget/search_bar.dart';
 import 'package:ecommerce_mobile_app/responsive.dart';
-import 'package:flutter/material.dart';
-
 import '../../models/category.dart';
 import 'Widget/home_app_bar.dart';
 import 'Widget/image_slider.dart';
 import '../Loading.dart';
+// import '../../services/product_service.dart'; // Importez le service ProductService où se trouve la fonction checkAllProducts
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -32,6 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       print('Waited for 5 seconds');
     });
+
+    // Appel de la fonction pour tester
+    checkAllProducts();
   }
 
   @override
@@ -51,15 +53,22 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: Colors.white,
             body: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.all(Responsive.screenWidth(context) < 600 ? 10 : 20),
+                padding: EdgeInsets.all(
+                    Responsive.screenWidth(context) < 600 ? 10 : 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: Responsive.screenWidth(context) < 600 ? 20 : 35),
+                    SizedBox(
+                        height:
+                            Responsive.screenWidth(context) < 600 ? 20 : 35),
                     const CustomAppBar(),
-                    SizedBox(height: Responsive.screenWidth(context) < 600 ? 10 : 20),
+                    SizedBox(
+                        height:
+                            Responsive.screenWidth(context) < 600 ? 10 : 20),
                     const MySearchBAR(),
-                    SizedBox(height: Responsive.screenWidth(context) < 600 ? 10 : 20),
+                    SizedBox(
+                        height:
+                            Responsive.screenWidth(context) < 600 ? 10 : 20),
                     ImageSlider(
                       currentSlide: currentSlider,
                       onChange: (value) {
@@ -70,9 +79,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                    SizedBox(height: Responsive.screenWidth(context) < 600 ? 10 : 20),
+                    SizedBox(
+                        height:
+                            Responsive.screenWidth(context) < 600 ? 10 : 20),
                     categoryItems(),
-                    SizedBox(height: Responsive.screenWidth(context) < 600 ? 10 : 20),
+                    SizedBox(
+                        height:
+                            Responsive.screenWidth(context) < 600 ? 10 : 20),
                     if (selectedIndex == 0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: Responsive.isDesktop(context) ? 4 : 2,
-                          childAspectRatio: Responsive.isDesktop(context) ? 1 : 0.75,
+                          childAspectRatio:
+                              Responsive.isDesktop(context) ? 1 : 0.75,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20),
                       itemCount: selectcategories[selectedIndex].length,
@@ -137,7 +151,9 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: selectedIndex == index ? Colors.grey[200] : Colors.transparent,
+                color: selectedIndex == index
+                    ? Colors.grey[200]
+                    : Colors.transparent,
               ),
               child: Column(
                 children: [

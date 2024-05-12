@@ -27,7 +27,7 @@ steps:
 
   - script: |
       echo Building and testing React dashboard...
-      cd Frontend/dashboard  # Assuming this is the correct path for your React project
+      cd Frontend/user/appUser/dashboard  # Assuming this is the correct path for your React project
       npm install
       npm run build
       npm test

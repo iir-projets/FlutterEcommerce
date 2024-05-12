@@ -5,14 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ecom.ecomshop.model.Article;
+import com.ecom.ecomshop.model.Categorie;
 import com.ecom.ecomshop.repository.ArticleRepository;
-
+import com.ecom.ecomshop.repository.CategorieRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-
 
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -29,8 +29,10 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
-    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop","src", "main", "resources", "static", "images");
+    @Autowired
+    private CategorieRepository categorieRepository;
 
+    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop", "src", "main", "resources", "static", "images");
 
     @jakarta.annotation.PostConstruct
     public void init() {
@@ -55,6 +57,8 @@ public class ArticleController {
     public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
                                                  @RequestParam("description") String description,
                                                  @RequestParam("price") BigDecimal price,
+                                                 @RequestParam("quantite") int quantite,
+                                                 @RequestParam("categorieId") Long categorieId,
                                                  @RequestParam(value = "image", required = false) MultipartFile imageFile) {
         try {
             // Create and save the article to generate an ID
@@ -62,9 +66,19 @@ public class ArticleController {
             article.setName(name);
             article.setDescription(description);
             article.setPrice(price);
+            article.setQuantite(quantite);
             article.setImage("default.jpg");  // Initially set to default image
+
+            // Retrieve the category from database
+            Optional<Categorie> categorieOptional = categorieRepository.findById(categorieId);
+            if (categorieOptional.isPresent()) {
+                article.setCategorie(categorieOptional.get());
+            } else {
+                return ResponseEntity.badRequest().body("Category not found with ID: " + categorieId);
+            }
+
             article = articleRepository.save(article);  // Save to generate ID
-    
+
             // Process and save the image if it's provided
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageName = article.getId() + "." + getExtension(imageFile.getOriginalFilename());
@@ -73,28 +87,15 @@ public class ArticleController {
                 article.setImage(imageName);  // Update article with the actual image name
                 articleRepository.save(article);  // Save the updated article
             }
-    
+
             return ResponseEntity.ok("Article ajouté avec succès: " + article.getId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to add article: " + e.getMessage());
         }
     }
-    
-    private static String getExtension(String filename) {
-        if (filename == null || filename.isEmpty()) {
-            return "";
-        }
-        int dotIndex = filename.lastIndexOf(".");
-        if (dotIndex >= 0) {
-            return filename.substring(dotIndex + 1);
-        } else {
-            return "";
-        }
-    }
-    
 
     @PutMapping("/updateArticle/{id}")
-    public String modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
+    public ResponseEntity<String> modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
@@ -107,37 +108,34 @@ public class ArticleController {
             if (articleModifie.getPrice() != null) {
                 article.setPrice(articleModifie.getPrice());
             }
+            if (articleModifie.getQuantite() != null) {
+                article.setQuantite(articleModifie.getQuantite());
+            }
             if (articleModifie.getImage() != null) {
                 article.setImage(articleModifie.getImage());
             }
+            if (articleModifie.getCategorie() != null) {
+                article.setCategorie(articleModifie.getCategorie());
+            }
             articleRepository.save(article);
-            return "Article modifié avec succès";
+            return ResponseEntity.ok("Article modifié avec succès");
         } else {
-            return "Article non trouvé";
+            return ResponseEntity.badRequest().body("Article non trouvé");
         }
     }
 
     @DeleteMapping("/dropArticle/{id}")
-    public String supprimerArticle(@PathVariable Long id) {
-        articleRepository.deleteById(id);
-        return "Article supprimé avec succès";
+    public ResponseEntity<String> supprimerArticle(@PathVariable Long id) {
+        if (articleRepository.existsById(id)) {
+            articleRepository.deleteById(id);
+            return ResponseEntity.ok("Article supprimé avec succès");
+        } else {
+            return ResponseEntity.badRequest().body("Article non trouvé");
+        }
     }
 
-
-    @GetMapping("/pagesArticles")
-    public Page<Article> getAllArticles(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return articleRepository.findAll(pageable);
-
-            }
-
-            
+    private String getExtension(String originalFilename) {
+        String[] parts = originalFilename.split("\\.");
+        return parts[parts.length - 1];
     }
-
-
-    
-    
-
-
+}

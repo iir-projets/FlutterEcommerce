@@ -8,6 +8,7 @@ import {
   ContextMenu,
   Filter,
   Page,
+  Search,
   ExcelExport,
   PdfExport,
   Edit,
@@ -16,24 +17,44 @@ import {
 import { useStateContext } from "../contexts/ContextProvider";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import axios from 'axios';
 import { Navbar, Footer, Sidebar } from "../components";
-import Categories from "./categories";
 import AddProduct from "./AddProduct";
+// import { Button } from "../components";
 
-import { contextMenuItems,ordersGrid} from "../data/data";
+import { contextMenuItems, ProductGrid } from "../data/data";
 import { Header } from "../components";
+
 const Products = () => {
   const { activeMenu, setThemeSettings, currentColor } = useStateContext();
 
+  const handleEdit = (rowData) => {
+    // Implement the edit functionality here
+  };
+
+  const handleDelete = async (rowData) => {
+    try {
+      const response = await axios.delete(`http://192.168.56.1:8081/api/articles/dropArticle/${rowData.id}`);
+      console.log(response.data); // Log success message
+      // You can perform additional actions after successful deletion
+    } catch (error) {
+      console.error('Error deleting article:', error);
+      // Handle error scenarios
+    }
+  };
+
   const [ordersData, setOrdersData] = useState([]);
+
   useEffect(() => {
     // Function to fetch data from the backend API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.56.1:8081/testConnection');
+        const response = await fetch('http://192.168.56.1:8081/articles');
         if (response.ok) {
           const data = await response.json();
-          setOrdersData(data); 
+          setOrdersData(data);
         } else {
           console.error('Failed to fetch data');
         }
@@ -42,10 +63,8 @@ const Products = () => {
       }
     };
 
-    fetchData(); // Call the fetch data function when component mounts
+    fetchData();
   }, []);
-
-
 
   return (
     <div className="flex relative dark:bg-main-dark-bg">
@@ -77,7 +96,6 @@ const Products = () => {
         <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
           <Navbar />
         </div>
-        <Categories />
         <AddProduct />
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
           <Header category="Page" title="Products" />
@@ -88,13 +106,28 @@ const Products = () => {
             allowSorting
             allowExcelExport
             allowPdfExport
+            toolbar={["Search"]}
             contextMenuItems={contextMenuItems}
             editSettings={{ allowDeleting: true, allowEditing: true }}
           >
             <ColumnsDirective>
-              {ordersGrid.map((item, index) => (
-                <ColumnDirective key={index} {...item}  />
+              {ProductGrid.map((item, index) => (
+                <ColumnDirective key={index} {...item} />
               ))}
+              <ColumnDirective headerText="edit" width="150" template={(props) => {
+                return (
+                  <div>
+                    <button type="button" className="btn btn-info" onClick={() => handleEdit(props)}><FaEdit /></button>
+                  </div>
+                );
+              }} />
+              <ColumnDirective headerText="delete" width="150" template={(props) => {
+                return (
+                  <div>
+                    <button type="button" className="btn btn-danger" onClick={() => handleDelete(props)}> <MdDelete /> </button>
+                  </div>
+                );
+              }} />
             </ColumnsDirective>
             <Inject
               services={[
@@ -103,6 +136,7 @@ const Products = () => {
                 ContextMenu,
                 Filter,
                 Page,
+                Search,
                 ExcelExport,
                 Edit,
                 PdfExport,

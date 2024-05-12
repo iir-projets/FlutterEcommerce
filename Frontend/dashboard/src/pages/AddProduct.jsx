@@ -30,7 +30,7 @@ const AddProduct = () => {
                 formData.append('image', image);
             }
     
-            const response = await axios.post(`${backendUrl}/article`, formData, {
+            const response = await axios.post(`${backendUrl}/addArticle`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -43,7 +43,7 @@ const AddProduct = () => {
             console.error('Error adding article:', error);
         }
     };
-
+    
     return (
         <>
             <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl">

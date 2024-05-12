@@ -13,7 +13,7 @@ steps:
 
   - script: |
       echo Installing dependencies and running Flutter tests...
-      cd Frontend  # Update this if your Flutter project is in a different subdirectory
+      cd Frontend/user  # Assuming the Flutter project is in the 'user' subdirectory under 'Frontend'
       flutter pub get
       flutter test
     displayName: 'Build and test Flutter app'
@@ -27,7 +27,7 @@ steps:
 
   - script: |
       echo Building and testing React dashboard...
-      cd Frontend  # Update this path if your React project is in a specific subdirectory
+      cd Frontend/dashboard  # This assumes your React project is in the 'dashboard' subdirectory under 'Frontend'
       npm install
       npm run build
       npm test
@@ -41,7 +41,7 @@ steps:
 
   - script: |
       echo Building and testing Spring Boot application...
-      cd Backend  # Update this path if your Spring Boot project is in a specific subdirectory
+      cd Backend/ecomshop  # This path leads to the 'ecomshop' subdirectory under 'Backend'
       ./mvnw clean install
     displayName: 'Build and test Spring Boot app'
     continueOnError: true

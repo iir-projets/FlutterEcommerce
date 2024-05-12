@@ -10,65 +10,59 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "article")
 public class Article {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
 
-    @Column(nullable = false, length = 255)
     private String name;
-
-    @Column(length = 500)
     private String description;
-
-    @Column(precision = 10, scale = 2)
     private BigDecimal price;
+    private String image; // Path to the image
 
-    @Column(nullable = false)
-    private String imagePath; // Store the path or URL of the image
-
+    // Constructor
     public Article() {
     }
 
-    public Long getArticleId() {
+    // Getters
+    public Long getId() {
         return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public BigDecimal getPrice() {
         return price;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    // Setters
+    public void setId(Long id) {
+        this.articleId = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

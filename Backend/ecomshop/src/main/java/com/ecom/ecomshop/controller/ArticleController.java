@@ -1,17 +1,21 @@
 package com.ecom.ecomshop.controller;
 
-import com.ecom.ecomshop.model.Article;
-import com.ecom.ecomshop.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.ecom.ecomshop.model.Article;
+import com.ecom.ecomshop.repository.ArticleRepository;
 
-import java.io.File;
+
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class ArticleController {
@@ -19,7 +23,16 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
-    private static final String UPLOAD_PATH = "C:/Users/21262/Desktop/e-commerce flutter/FlutterEcommerce/Frontend/dashboard/src/assets/products/";
+    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop", "img");
+
+    @jakarta.annotation.PostConstruct
+    public void init() {
+        try {
+            Files.createDirectories(rootLocation);
+        } catch (Exception e) {
+            throw new RuntimeException("Could not create the image storage directory", e);
+        }
+    }
 
     @GetMapping("/testConnection")
     public List<Article> testConnection() {
@@ -27,32 +40,37 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    @CrossOrigin
-    public ResponseEntity<String> ajouterArticle(@RequestParam("image") MultipartFile file,
-                                                 @RequestParam String name, @RequestParam String description, @RequestParam BigDecimal price) {
-
-        String fileName = file.getOriginalFilename();
-        System.out.println(name);
-        System.out.println(description);
-        System.out.println(fileName);
+    public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
+                                                 @RequestParam("description") String description,
+                                                 @RequestParam("price") BigDecimal price,
+                                                 @RequestParam("image") MultipartFile imageFile) {
         try {
-            file.transferTo(new File(UPLOAD_PATH + fileName));
-
-            // Create a new Article object and set its properties
             Article article = new Article();
             article.setName(name);
             article.setDescription(description);
             article.setPrice(price);
-            article.setImagePath(fileName); // Set the image path
 
-            // Save the Article object to the database
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageName = saveImage(imageFile);
+                article.setImage(imageName);
+            }
+
             articleRepository.save(article);
-
-            return ResponseEntity.ok("File uploaded successfully.");
+            return ResponseEntity.ok("Article ajouté avec succès: " + article.getId());
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.badRequest().body("Failed to add article: " + e.getMessage());
         }
+    }
+
+    private String saveImage(MultipartFile file) throws Exception {
+        String filename = UUID.randomUUID().toString() + "." + getExtension(file.getOriginalFilename());
+        Path targetLocation = rootLocation.resolve(filename);
+        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        return filename;
+    }
+
+    private static String getExtension(String filename) {
+        return filename.substring(filename.lastIndexOf(".") + 1);
     }
 
     @PutMapping("/article/{id}")
@@ -69,7 +87,9 @@ public class ArticleController {
             if (articleModifie.getPrice() != null) {
                 article.setPrice(articleModifie.getPrice());
             }
-            // The image path is not modified here because it's assumed that you won't modify the image path directly in a PUT request
+            if (articleModifie.getImage() != null) {
+                article.setImage(articleModifie.getImage());
+            }
             articleRepository.save(article);
             return "Article modifié avec succès";
         } else {

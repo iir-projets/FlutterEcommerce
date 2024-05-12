@@ -30,7 +30,7 @@ const Products = () => {
     // Function to fetch data from the backend API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.56.1:8083/testConnection');
+        const response = await fetch('http://192.168.56.1:8081/testConnection');
         if (response.ok) {
           const data = await response.json();
           setOrdersData(data); 

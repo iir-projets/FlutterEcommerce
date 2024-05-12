@@ -124,7 +124,7 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/articles")
+    @GetMapping("/pagesArticles")
     public Page<Article> getAllArticles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size) {

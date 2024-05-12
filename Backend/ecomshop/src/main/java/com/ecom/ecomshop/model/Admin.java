@@ -58,4 +58,11 @@ public class Admin {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String toJson() {
+        return "{\"user_id\": " + this.userId + 
+               ", \"username\": \"" + this.username + "\"" +
+               ", \"password\": \"" + this.password + "\"" +
+               ", \"email\": \"" + this.email + "\"}";
+    }
 }

@@ -7,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.repository.ArticleRepository;
 
-
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,7 +38,12 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
-    @PostMapping("/article")
+    @GetMapping("/articles")
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
+    }
+
+    @PostMapping("/addArticle")
     public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
                                                  @RequestParam("description") String description,
                                                  @RequestParam("price") BigDecimal price,
@@ -73,7 +77,7 @@ public class ArticleController {
         return filename.substring(filename.lastIndexOf(".") + 1);
     }
 
-    @PutMapping("/article/{id}")
+    @PutMapping("/updateArticle/{id}")
     public String modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
         Optional<Article> articleOptional = articleRepository.findById(id);
         if (articleOptional.isPresent()) {
@@ -97,7 +101,7 @@ public class ArticleController {
         }
     }
 
-    @DeleteMapping("/article/{id}")
+    @DeleteMapping("/dropArticle/{id}")
     public String supprimerArticle(@PathVariable Long id) {
         articleRepository.deleteById(id);
         return "Article supprimé avec succès";

@@ -13,7 +13,7 @@ steps:
 
   - script: |
       echo Installing dependencies and running Flutter tests...
-      cd Frontend/user  # Assuming this is the correct path for your Flutter project
+      cd Frontend/user/appUser  # Corrected path to the Flutter project
       flutter pub get
       flutter test
     displayName: 'Build and test Flutter app'
@@ -41,7 +41,7 @@ steps:
 
   - script: |
       echo Building and testing Spring Boot application...
-      cd Backend/ecomshop  # This is based on your directory structure for the Spring Boot project
+      cd Backend/ecomshop  # Path to the Spring Boot project
       ./mvnw clean install
     displayName: 'Build and test Spring Boot app'
     continueOnError: true

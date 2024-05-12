@@ -86,34 +86,36 @@ public class UtilisateurController {
     //   }
       
 
-     @PutMapping("/user/modifierUser/{id}")
-    public String modifierUtilisateur(@PathVariable Long id, @RequestBody Utilisateur utilisateurModifie) {
+    @PutMapping("/user/modifierUser/{id}")
+    public ResponseEntity<?> modifierUtilisateur(@PathVariable Long id, @RequestBody Utilisateur utilisateurModifie) {
         Optional<Utilisateur> utilisateurOptional = utilisateurRepository.findById(id);
-        if (utilisateurOptional.isPresent()) {
-            Utilisateur utilisateur = utilisateurOptional.get();
-            if (utilisateurModifie.getNom() != null) {
-                utilisateur.setNom(utilisateurModifie.getNom());
-            }
-            if (utilisateurModifie.getPrenom() != null) {
-                utilisateur.setPrenom(utilisateurModifie.getPrenom());
-            }
-            if (utilisateurModifie.getEmail() != null) {
-                utilisateur.setEmail(utilisateurModifie.getEmail());
-            }
-            if (utilisateurModifie.getTelephone() != null) {
-                utilisateur.setTelephone(utilisateurModifie.getTelephone());
-            }
-            if (utilisateurModifie.getAddress() != null) {
-                utilisateur.setAddress(utilisateurModifie.getAddress());
-            }
-            if (utilisateurModifie.getPassword() != null) {
-                utilisateur.setPassword(utilisateurModifie.getPassword());
-            }
-            utilisateurRepository.save(utilisateur);
-            return "Informations utilisateur modifiées avec succès";
-        } else {
-            return "Utilisateur non trouvé";
+        if (!utilisateurOptional.isPresent()) {
+            return ResponseEntity.notFound().build();  // Returns a 404 Not Found
         }
+
+        Utilisateur utilisateur = utilisateurOptional.get();
+        if (utilisateurModifie.getNom() != null) {
+            utilisateur.setNom(utilisateurModifie.getNom());
+        }
+        if (utilisateurModifie.getPrenom() != null) {
+            utilisateur.setPrenom(utilisateurModifie.getPrenom());
+        }
+        if (utilisateurModifie.getEmail() != null) {
+            utilisateur.setEmail(utilisateurModifie.getEmail());
+        }
+        if (utilisateurModifie.getTelephone() != null) {
+            utilisateur.setTelephone(utilisateurModifie.getTelephone());
+        }
+        if (utilisateurModifie.getAddress() != null) {
+            utilisateur.setAddress(utilisateurModifie.getAddress());
+        }
+        if (utilisateurModifie.getPassword() != null) {
+            utilisateur.setPassword(utilisateurModifie.getPassword());
+        }
+        utilisateurRepository.save(utilisateur);
+
+        // You can also return the updated user or any other meaningful data here
+        return ResponseEntity.ok(utilisateur);  // Returns a 200 OK with the updated user
     }
 
     // pour le test : http://192.168.56.1:8081/userId/5

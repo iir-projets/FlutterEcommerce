@@ -164,33 +164,34 @@ Future<User> getUserDetails() async {
 Future<bool> editProfile(User user) async {
   var body = {
     "user_id": user.user_id.toString(),
+    "nom": user.nom,
+    "prenom": user.prenom,
+    "email": user.email,
+    "telephone": user.telephone,
+    "address": user.adresse,
   };
-
-  // Compare the new values with the old values and include only the changed fields
-  if (user.nom != null) body["nom"] = user.nom;
-  if (user.prenom != null) body["prenom"] = user.prenom;
-  if (user.email != null) body["email"] = user.email;
-  if (user.telephone != null) body["telephone"] = user.telephone;
-  if (user.adresse != null) body["address"] = user.adresse;
 
   try {
     if (await CheckInternet()) {
       var response = await http.put(
-          Uri.parse("$urlAPI/editProfile/${user.user_id}"),
-          headers: {
-            'Content-Type': 'application/json', // Ajout du type de contenu
-            'Accept': 'application/json'
-          },
-          body: jsonEncode(body)); // Encodage du corps de la requête en JSON
-
-      print(response.body);
+        Uri.parse("$urlAPI/modifierUser/${user.user_id}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode(body),
+      );
 
       if (response.statusCode == 200) {
         print("Profil modifié avec succès");
+
+        // Update local user data after successful server update
+        MyStorage storage = Get.find();
+        await storage.SaveUser(user);
+
         return true;
       } else {
-        print(response.statusCode);
-        print("Erreur lors de la requête");
+        print("Erreur lors de la requête: ${response.statusCode}");
         return false;
       }
     } else {
@@ -199,8 +200,7 @@ Future<bool> editProfile(User user) async {
     }
   } catch (e) {
     print("Une erreur s'est produite: $e");
-    MySnackbar.Warnning(
-        "Un problème est survenu, veuillez réessayer plus tard");
+    MySnackbar.Warnning("Un problème est survenu, veuillez réessayer plus tard");
     return false;
   }
 }

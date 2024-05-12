@@ -1,54 +1,61 @@
 trigger:
-  - main
+- main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'Continuous delivery - agent'
+  demands:
+  - agent.name -equals DESKTOP-SRQJNM7
 
-steps:
-  - script: |
-      echo Installing Flutter...
-      sudo snap install flutter --classic
-      flutter doctor
-    displayName: 'Install Flutter'
+variables:
+  buildConfigPath: 'src/main/resources/application.properties'
+  artifactName: '$(Build.BuildId)-$(Build.DefinitionName).jar'
+  targetDirectory: 'C:\Users\hp\OneDrive\Desktop\ecom\FlutterEcommerce\Backend\ecomshop\target'
 
-  - script: |
-      echo Installing dependencies and running Flutter tests...
-      cd Frontend/user/appUser  # Corrected path to the Flutter project
-      flutter pub get
-      flutter test
-    displayName: 'Build and test Flutter app'
-    continueOnError: true
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - checkout: self
 
-  - script: |
-      echo Setting up Node.js environment...
-      curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-      sudo apt-get install -y nodejs
-    displayName: 'Install Node.js'
+    - script: |
+        mvn verify
+      displayName: 'Build and test the application'
+      workingDirectory: $(Build.SourcesDirectory)
 
-  - script: |
-      echo Building and testing React dashboard...
-      cd Frontend/user/appUser/dashboard  # Assuming this is the correct path for your React project
-      npm install
-      npm run build
-      npm test
-    displayName: 'Build and test React Dashboard'
-    continueOnError: true
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+        testRunTitle: 'Publish Test Results'
 
-  - script: |
-      echo Setting up Java environment...
-      sudo apt-get install openjdk-11-jdk
-    displayName: 'Install JDK'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/target'
+        Contents: '**/*.jar'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      displayName: 'Copy JAR file to artifact staging directory'
 
-  - script: |
-      echo Building and testing Spring Boot application...
-      cd Backend/ecomshop  # Path to the Spring Boot project
-      ./mvnw clean install
-    displayName: 'Build and test Spring Boot app'
-    continueOnError: true
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+      displayName: 'Publish Artifact'
 
-  - checkout: none
-    displayName: 'Disable further repository syncing'
+- stage: Deploy
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeploymentJob
+    environment: 'staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
 
-  - script: |
-      echo All builds and tests are completed.
-    displayName: 'Final Step'
+          - script: |
+              echo "Deploying to $(environment.name)"
+            displayName: 'Deploy Application'

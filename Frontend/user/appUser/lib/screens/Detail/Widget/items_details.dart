@@ -12,7 +12,7 @@ class ItemsDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          product.name,
+          product.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,

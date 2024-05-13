@@ -225,7 +225,7 @@ Future<bool> checkAllProducts() async {
         var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
         if (jsonResponse["status"] == true) {
           List<dynamic> productsData = jsonResponse["products"];
-          List<Product> products = productsData
+          List products = productsData
               .map((productJson) => Product.fromJson(productJson))
               .toList();
           MyStorage storage = Get.find();

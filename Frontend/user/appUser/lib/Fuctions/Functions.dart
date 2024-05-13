@@ -217,7 +217,7 @@ Future<bool> checkAllProducts() async {
     if (await CheckInternet()) {
       var response = await http.get(Uri.parse("$urlAPIProduct/articlesAll"),
           headers: {'Accept': 'application/json'});
-
+print(response.body);
       if (response.statusCode == 202) {
         return false;
         // Attendez 5 secondes avant de vérifier à nouveau// Vérifiez à nouveau récursivement

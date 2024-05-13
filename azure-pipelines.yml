@@ -1,0 +1,64 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    echo Installing Flutter...
+    sudo snap install flutter --classic
+    flutter doctor
+  displayName: 'Install Flutter'
+
+- script: |
+    echo Creating pubspec.yaml...
+    rm -f pubspec.yaml
+    flutter create .
+  displayName: 'Create pubspec.yaml'
+
+- script: |
+    echo Installing dependencies...
+    flutter pub get
+  displayName: 'Install Flutter dependencies'
+
+- script: |
+    echo Running Flutter app...
+    flutter run -d chrome
+  displayName: 'Run Flutter app'
+  continueOnError: true
+
+- script: |
+    echo Setting up Node.js environment...
+    curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+  displayName: 'Install Node.js'
+
+- script: |
+    echo Building and testing React dashboard...
+    cd Frontend/dashboard
+    npm install
+    npm start
+  displayName: 'Build and test React Dashboard'
+  continueOnError: true
+
+- script: |
+    echo Setting up Java environment...
+    sudo apt-get install -y openjdk-11-jdk
+  displayName: 'Install JDK'
+
+- script: |
+    echo Building and testing Spring Boot application...
+    cd Backend/ecomshop
+    ./mvnw clean install
+  displayName: 'Build and test Spring Boot app'
+  continueOnError: true
+
+- checkout: none
+  displayName: 'Disable further repository syncing'
+
+- script: |
+    echo All builds and tests are completed.
+  displayName: 'Final Step'

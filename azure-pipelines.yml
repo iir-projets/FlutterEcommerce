@@ -26,7 +26,7 @@ steps:
 
 - script: |
     echo Running Flutter app...
-    flutter run -d web-server
+    flutter run -d chrome
   displayName: 'Run Flutter app'
   continueOnError: true
 

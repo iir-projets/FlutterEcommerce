@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import './signIn.dart';
+import './changePwd.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,11 +20,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class PhoneNumberVerificationScreen extends StatelessWidget {
+class PhoneNumberVerificationScreen extends StatefulWidget {
+  @override
+  _PhoneNumberVerificationScreenState createState() =>
+      _PhoneNumberVerificationScreenState();
+}
+
+class _PhoneNumberVerificationScreenState
+    extends State<PhoneNumberVerificationScreen> {
   // Colors
   static const Color kcontentColor = Color(0xffF5F5F5);
   static const Color kprimaryColor = Color.fromARGB(197, 155, 110, 110);
   static const Color priceColor = Color.fromARGB(197, 102, 24, 24);
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +68,34 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 TextButton(
-                  // Changement du FlatButton à TextButton
                   onPressed: () {},
-                  child: Text('J\'ai pas reçu le code? RENVOYÉ',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: priceColor)),
+                  child: Text(
+                    'Je n\'ai pas reçu le code? RENVOYÉ',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: priceColor,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 20),
-                MaterialButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    backgroundColor: kprimaryColor,
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
                   ),
-                  color: kprimaryColor,
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-                  child: Text('VÉRIFIER',
-                      style: TextStyle(color: Colors.white, fontSize: 16)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
-                  },
+                  onPressed: _loading ? null : _handleVerification,
+                  child: _loading
+                      ? CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        )
+                      : Text(
+                          'VÉRIFIER',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                 ),
               ],
             ),
@@ -89,6 +103,23 @@ class PhoneNumberVerificationScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handleVerification() {
+    setState(() {
+      _loading = true;
+    });
+
+    // Attente de 5 secondes avant de naviguer vers la page de changement de mot de passe
+    Future.delayed(Duration(seconds: 5), () {
+      setState(() {
+        _loading = false;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ChangePwd()),
+      );
+    });
   }
 
   Widget _buildCodeBox() {

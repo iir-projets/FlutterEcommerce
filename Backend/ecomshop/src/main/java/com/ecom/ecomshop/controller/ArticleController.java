@@ -159,9 +159,6 @@ private String getBaseUrl() {
             if (articleModifie.getPrice() != null) {
                 article.setPrice(articleModifie.getPrice());
             }
-            if (articleModifie.getQuantite() != null) {
-                article.setQuantite(articleModifie.getQuantite());
-            }
             if (articleModifie.getImage() != null) {
                 article.setImage(articleModifie.getImage());
             }

@@ -41,7 +41,6 @@ steps:
     echo Building and testing React dashboard...
     cd Frontend/dashboard
     npm install
-    npm start
   displayName: 'Build and test React Dashboard'
   continueOnError: true
 

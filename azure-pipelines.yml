@@ -26,9 +26,10 @@ steps:
 
 - script: |
     echo Running Flutter app...
-    flutter run -d web-server
+    flutter run -d web-server --no-pub
   displayName: 'Run Flutter app'
   continueOnError: true
+
 
 - script: |
     echo Setting up Node.js environment...

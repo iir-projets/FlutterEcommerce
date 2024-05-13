@@ -21,7 +21,7 @@ const Adminlog = () => {
         const userId = response.data.admin.user_id; // Assuming userId is directly under 'admin' object
         storeUserId(userId); // Store user ID in local storage
         console.log(userId);
-        navigate("/ecommerce");
+        navigate("/products");
       } else {
         alert("Identifiants incorrects");
       }

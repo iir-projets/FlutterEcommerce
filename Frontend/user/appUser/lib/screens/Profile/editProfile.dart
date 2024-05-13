@@ -1,9 +1,11 @@
+import 'package:ecommerce_mobile_app/screens/Home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ecommerce_mobile_app/Fuctions/Functions.dart';
 import 'package:ecommerce_mobile_app/constants.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:ecommerce_mobile_app/screens/Loading.dart';
+import 'package:ecommerce_mobile_app/screens/nav_bar_screen.dart'; // Import the home screen
 
 class ModifyProfileScreen extends StatefulWidget {
   @override
@@ -70,7 +72,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavBar())); // Redirect to home screen
           },
         ),
       ),

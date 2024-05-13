@@ -24,11 +24,11 @@ steps:
     flutter pub get
   displayName: 'Install Flutter dependencies'
 
-- script: |
-    echo Running Flutter app...
-    flutter run -d web-server --no-pub
-  displayName: 'Run Flutter app'
-  continueOnError: true
+# - script: |
+#     echo Running Flutter app...
+#     flutter run -d web-server --no-pub
+#   displayName: 'Run Flutter app'
+#   continueOnError: true
 
 
 - script: |

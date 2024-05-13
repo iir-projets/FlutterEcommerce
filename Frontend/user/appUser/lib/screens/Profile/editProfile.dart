@@ -34,7 +34,7 @@ class _ModifyProfileScreenState extends State<ModifyProfileScreen> {
   void fetchUserData() async {
     setState(() => loadWait = true);
     try {
-      currentUser = await getUserDetails();
+      currentUser = (await getUserDetails())!;
       print(
           "Data fetched: ${currentUser.toJson()}"); // Ensure toJson() is implemented in User model to log this
       setState(() {

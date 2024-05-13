@@ -39,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     List<List<Product>> selectcategories = [
-      all,
       shoes,
       beauty,
       womenFashion,

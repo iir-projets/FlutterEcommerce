@@ -19,7 +19,10 @@ class _FavoriteState extends State<Favorite> {
       backgroundColor: kcontentColor,
       appBar: AppBar(
         backgroundColor: kcontentColor,
-        title: const Text("Favorite",style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          "Favorite",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       body: Column(
@@ -59,7 +62,7 @@ class _FavoriteState extends State<Favorite> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  favoritItems.title,
+                                  favoritItems.name,
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -67,7 +70,7 @@ class _FavoriteState extends State<Favorite> {
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  favoritItems.category,
+                                  favoritItems.categorie_id as String,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,

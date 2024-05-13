@@ -36,7 +36,7 @@ Future<bool> Login(String email, String password) async {
           // fhad lblassa ghadi t9adi data ou diriha f variable samih user
           User user = User.fromJson(jsonResponse["user"]);
           await storage.SaveUser(user);
-          print("login seccess");
+          print("login success");
           //////////////////////////////////////////////////////////////////////////////
           return true;
         } else {
@@ -153,7 +153,7 @@ Future<bool> register(String nom, String prenom, String email, String telephone,
 /**************************************************** REGISTER END ****************************************************/
 
 // Fonction pour récupérer les détails de l'utilisateur connecté
-Future<User> getUserDetails() async {
+Future<User?> getUserDetails() async {
   MyStorage storage = Get.find();
   return await storage.getUser();
 }
@@ -219,9 +219,8 @@ Future<bool> checkAllProducts() async {
           headers: {'Accept': 'application/json'});
 
       if (response.statusCode == 202) {
-        print(response.body);
-        // Attendez 5 secondes avant de vérifier à nouveau
-        return await checkAllProducts(); // Vérifiez à nouveau récursivement
+        return false;
+        // Attendez 5 secondes avant de vérifier à nouveau// Vérifiez à nouveau récursivement
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
         if (jsonResponse["status"] == true) {
@@ -231,6 +230,7 @@ Future<bool> checkAllProducts() async {
               .toList();
           MyStorage storage = Get.find();
           await storage.saveProduct(products as Product);
+          print("yessssssssssssssssssssssssssssssssssssssss");
           return true;
         } else {
           print("chi haja mahiyachhhhhhhhhhhhhhhhhh");

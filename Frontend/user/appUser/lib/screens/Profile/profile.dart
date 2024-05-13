@@ -24,7 +24,7 @@ class _ProfileState extends State<Profile> {
 
   void fetchUserData() async {
     try {
-      currentUser = await getUserDetails();
+      currentUser = (await getUserDetails())!;
       print(
           "Data fetched: ${currentUser.toJson()}"); // Ensure toJson() is implemented in User model to log this
       setState(() {

@@ -65,7 +65,7 @@ class MyStorage extends GetxService {
   Future saveProduct(Product produit) async {
     try {
       await prefs!.setInt("", produit.article_id);
-      await prefs!.setString("title", produit.title);
+      await prefs!.setString("title", produit.name);
       await prefs!.setString("description", produit.description);
       await prefs!.setString("image", produit.image);
       await prefs!.setDouble("price", produit.price);

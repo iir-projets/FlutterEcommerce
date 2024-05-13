@@ -12,12 +12,33 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+
+  // Dummy function to map category IDs to names
+  String getCategoryName(int categoryId) {
+    switch (categoryId) {
+      case 1:
+        return 'Electronics';
+      case 2:
+        return 'Shoes';
+      case 3:
+        return 'Beauty';
+      case 4:
+        return 'Women\'s Fashion';
+      case 5:
+        return 'Jewelry';
+      case 6:
+        return 'Men\'s Fashion';
+      default:
+        return 'Unknown Category';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = CartProvider.of(context);
     final finalList = provider.cart;
 
-    productQuantity(IconData icon, int index) {
+    Widget productQuantity(IconData icon, int index) {
       return GestureDetector(
         onTap: () {
           setState(() {
@@ -34,10 +55,8 @@ class _CartScreenState extends State<CartScreen> {
     }
 
     return Scaffold(
-      // for total and check out
       backgroundColor: kcontentColor,
-      bottomSheet:  const CheckOutBox(),
-
+      bottomSheet: const CheckOutBox(),
       body: SafeArea(
         child: Column(
           children: [
@@ -108,7 +127,7 @@ class _CartScreenState extends State<CartScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    cartItems.title,
+                                    cartItems.name,
                                     style: const TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,
@@ -117,8 +136,8 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   const SizedBox(height: 5),
                                   Text(
-                                    cartItems.category,
-                                    style:const TextStyle(
+                                    getCategoryName(cartItems.categorie_id),
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,
@@ -126,7 +145,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    "\$${cartItems.price}",
+                                    "\$${cartItems.price.toStringAsFixed(2)}",
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,

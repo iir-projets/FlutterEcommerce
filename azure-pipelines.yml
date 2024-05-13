@@ -14,8 +14,13 @@ steps:
   displayName: 'Install Flutter'
 
 - script: |
+    echo Creating pubspec.yaml...
+    rm -f pubspec.yaml
+    flutter create .
+  displayName: 'Create pubspec.yaml'
+
+- script: |
     echo Installing dependencies and running Flutter app...
-    cd Frontend/user/appUser
     flutter pub get
     flutter run
   displayName: 'Build and run Flutter app'
@@ -32,7 +37,7 @@ steps:
     cd Frontend/dashboard
     npm install
     npm start
-  displayName: 'Build and run React Dashboard'
+  displayName: 'Build and test React Dashboard'
   continueOnError: true
 
 - script: |

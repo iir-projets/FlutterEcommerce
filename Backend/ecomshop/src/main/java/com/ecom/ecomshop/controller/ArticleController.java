@@ -158,10 +158,9 @@ public class ArticleController {
 		    }
 		}
 
-<<<<<<< HEAD
 
-	@PutMapping("/updateArticle/{id}")
-	public ResponseEntity<String> modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
+	@PutMapping("/updaateArticle/{id}")
+	public ResponseEntity<String> modifieerArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
 	    Optional<Article> articleOptional = articleRepository.findById(id);
 	    if (articleOptional.isPresent()) {
 	        Article article = articleOptional.get();
@@ -189,35 +188,6 @@ public class ArticleController {
 	        return ResponseEntity.badRequest().body("Article non trouvé");
 	    }
 	}
-=======
-    @PutMapping("/updateArticle/{id}")
-    public ResponseEntity<String> modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
-        Optional<Article> articleOptional = articleRepository.findById(id);
-        if (articleOptional.isPresent()) {
-            Article article = articleOptional.get();
-            if (articleModifie.getName() != null) {
-                article.setName(articleModifie.getName());
-            }
-            if (articleModifie.getDescription() != null) {
-                article.setDescription(articleModifie.getDescription());
-            }
-            if (articleModifie.getPrice() != null) {
-                article.setPrice(articleModifie.getPrice());
-            }
-            if (articleModifie.getImage() != null) {
-                article.setImage(articleModifie.getImage());
-            }
-            if (articleModifie.getCategorie() != null) {
-                article.setCategorie(articleModifie.getCategorie());
-            }
-            articleRepository.save(article);
-            return ResponseEntity.ok("Article modifié avec succès");
-        } else {
-            return ResponseEntity.badRequest().body("Article non trouvé");
-        }
-    }
->>>>>>> 9bb40e6c55870633bfdee229697e9260af2c0746
-
     @DeleteMapping("/dropArticle/{id}")
     public ResponseEntity<String> supprimerArticle(@PathVariable Long id) {
         if (articleRepository.existsById(id)) {

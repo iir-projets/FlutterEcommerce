@@ -24,25 +24,34 @@ steps:
     flutter pub get
   displayName: 'Install Flutter dependencies'
 
-# - script: |
-#     echo Running Flutter app...
-#     flutter run -d web-server --no-pub
-#   displayName: 'Run Flutter app'
-#   continueOnError: true
+# Removed Run Flutter app step
 
+- script: |
+    echo Removing existing package.json...
+    rm -f Frontend/dashboard/package.json
+    echo Generating new package.json...
+    cd Frontend/dashboard
+    npm init -y
+  displayName: 'Generate package.json for React Dashboard'
+
+- script: |
+    echo Installing dependencies for React dashboard...
+    cd Frontend/dashboard
+    npm install
+  displayName: 'Install dependencies for React Dashboard'
+
+- script: |
+    echo Building and testing React dashboard...
+    cd Frontend/dashboard
+    npm start
+  displayName: 'Build and test React Dashboard'
+  continueOnError: true
 
 - script: |
     echo Setting up Node.js environment...
     curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
     sudo apt-get install -y nodejs
   displayName: 'Install Node.js'
-
-- script: |
-    echo Building and testing React dashboard...
-    cd Frontend/dashboard
-    npm install
-  displayName: 'Build and test React Dashboard'
-  continueOnError: true
 
 - script: |
     echo Setting up Java environment...

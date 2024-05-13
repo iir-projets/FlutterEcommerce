@@ -2,8 +2,12 @@ package com.ecom.ecomshop.model;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "article")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +29,15 @@ public class Article {
     private String image; // Chemin vers l'image
     private int quantite; // Attribut quantite
 
-    @ManyToOne 
-    @JoinColumn(name = "categorie_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
+    @JoinColumn(name = "categorie_id") // Corrected to "categorie_id"
+    @JsonIgnore // To prevent recursive serialization
     private Categorie categorie; 
 
-    // Constructeur
     public Article() {
     }
 
-    // Getters et setters
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -86,4 +91,5 @@ public class Article {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
+
 }

@@ -13,7 +13,7 @@ export const productImage = (props) => (
   );
 export const ProductGrid = [
     {
-      field:"image_path",
+      field:"image",
       headerText: "image",
       template: productImage,
       textAlign: "Center",
@@ -39,7 +39,24 @@ export const ProductGrid = [
       textAlign: "Center",
       editType: "numericedit",
       width: "150",
+    },
+    {
+      field: "quantite",
+      headerText: "quantite",
+      format: "C2",
+      textAlign: "Center",
+      editType: "numericedit",
+      width: "150",
+    },
+    {
+      field: "categorie.catNom",
+      headerText: "categorie",
+      format: "C2",
+      textAlign: "Center",
+      editType: "numericedit",
+      width: "150",
     }
+
   ];
   export const contextMenuItems = [
     "AutoFit",
@@ -69,5 +86,55 @@ export const ProductGrid = [
       iconColor: "#03C9D7",
       iconBg: "#E5FAFB",
       pcColor: "red-600",
+    },
+  ];
+  const gridEmployeeProfile = (props) => (
+    <div className="flex items-center gap-2">
+      <img
+        className="rounded-full w-10 h-10"
+        src={props.EmployeeImage}
+        alt="employee"
+      />
+      <p>{props.Name}</p>
+    </div>
+  );
+  export const employeesGrid = [
+    {
+      headerText: "image",
+      width: "150",
+      template: gridEmployeeProfile,
+      textAlign: "Center",
+    },
+    {
+      field: "name",
+      headerText: "Name",
+      width: "170",
+      textAlign: "Center",
+    },
+  ];
+  export const employeesData = [
+    {
+      EmployeeID: 1,
+      name: "shoes",
+      Namkje: "Sales Representative",
+      HireDate: "01/02/2021",
+      Country: "USA",
+      ReportsTo: "Carson",
+    },
+    {
+      EmployeeID: 2,
+      name: "bags",
+      Title: "Marketing Head",
+      HireDate: "01/02/2021",
+      Country: "USA",
+      ReportsTo: "Carson",
+    },
+    {
+      EmployeeID: 3,
+      name: "perfums",
+      Title: "HR",
+      HireDate: "01/02/2021",
+      Country: "USA",
+      ReportsTo: "Carson",
     },
   ];

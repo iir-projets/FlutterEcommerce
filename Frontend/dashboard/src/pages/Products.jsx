@@ -22,7 +22,6 @@ import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
 import { Navbar, Footer, Sidebar } from "../components";
 import AddProduct from "./AddProduct";
-// import { Button } from "../components";
 
 import { contextMenuItems, ProductGrid } from "../data/data";
 import { Header } from "../components";
@@ -37,11 +36,9 @@ const Products = () => {
   const handleDelete = async (rowData) => {
     try {
       const response = await axios.delete(`http://192.168.56.1:8081/api/articles/dropArticle/${rowData.id}`);
-      console.log(response.data); // Log success message
-      // You can perform additional actions after successful deletion
+      console.log(response.data); 
     } catch (error) {
       console.error('Error deleting article:', error);
-      // Handle error scenarios
     }
   };
 
@@ -51,10 +48,9 @@ const Products = () => {
     // Function to fetch data from the backend API
     const fetchData = async () => {
       try {
-        const response = await fetch('http://192.168.56.1:8081/articles');
-        if (response.ok) {
-          const data = await response.json();
-          setOrdersData(data);
+        const response = await axios.get('http://192.168.56.1:8081/articlesAll');
+        if (response.data.status === "true") {
+          setOrdersData(response.data.products);
         } else {
           console.error('Failed to fetch data');
         }

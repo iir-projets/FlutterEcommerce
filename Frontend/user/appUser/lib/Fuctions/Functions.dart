@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:html';
-import 'dart:io';
-
+// import 'dart:html';
+// import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:ecommerce_mobile_app/models/product_model.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 var headers = {'Accept': 'application/json'};
 String urlAPI = "http://192.168.56.1:8081/user";
@@ -209,6 +208,8 @@ Future<bool> editProfile(User user) async {
 }
 
 /**************************************************** EDIT END ****************************************************/
+/**************************************************** START CHECK PRODUCT ****************************************************/
+
 String urlAPIProduct = "http://192.168.56.1:8081";
 
 Future<bool> checkAllProducts() async {
@@ -252,4 +253,37 @@ Future<bool> checkAllProducts() async {
     return false;
   }
 }
+
+/**************************************************** END CHECK PRODUCT ****************************************************/
+/**************************************************** START SEND EMAIL ****************************************************/
+Future<bool> sendEmail(String receiver, String subject, String body) async {
+  var urlsendEmail = Uri.parse('http://192.168.56.1:8081/sendEmail');
+
+  // Construire l'URL avec les paramètres de requête
+  var emailParams = {
+    'receiver': receiver,
+    'subject': subject,
+    'body': body,
+  };
+  var encodedUrl =
+      Uri.http(urlsendEmail.authority, urlsendEmail.path, emailParams);
+
+  try {
+    var response = await http.post(encodedUrl);
+
+    if (response.statusCode == 200) {
+      print('Email envoyé avec succès');
+      return true;
+    } else {
+      print(
+          'Échec de l\'envoi de l\'email. Code d\'état : ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Erreur lors de l\'envoi de l\'email: $e');
+    return false;
+  }
+}
+
+/**************************************************** END SEND EMAIL ****************************************************/
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

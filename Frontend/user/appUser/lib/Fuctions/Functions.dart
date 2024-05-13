@@ -209,6 +209,8 @@ Future<bool> editProfile(User user) async {
 }
 
 /**************************************************** EDIT END ****************************************************/
+/**************************************************** START CHECK PRODUCT ****************************************************/
+
 String urlAPIProduct = "http://192.168.56.1:8081";
 
 Future<bool> checkAllProducts() async {
@@ -252,4 +254,34 @@ Future<bool> checkAllProducts() async {
     return false;
   }
 }
+/**************************************************** END CHECK PRODUCT ****************************************************/
+/**************************************************** START SEND EMAIL ****************************************************/
+
+Future<bool> sendEmail(String receiver, String subject, String body) async {
+  var url = Uri.parse('http://192.168.56.1:8081/sendEmail');
+  var headers = {'Content-Type': 'application/json'};
+  var data = jsonEncode({
+    'receiver': receiver,
+    'subject': subject,
+    'body': body,
+  });
+
+  try {
+    var response = await http.post(url, headers: headers, body: data);
+
+    if (response.statusCode == 200) {
+      print('Email sent successfully');
+      print(response.body);
+      return true;
+    } else {
+      print('Failed to send email');
+      return false;
+    }
+  } catch (e) {
+    print('Error sending email: $e');
+    return false;
+  }
+}
+/**************************************************** END SEND EMAIL ****************************************************/
+
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

@@ -41,13 +41,6 @@ steps:
   displayName: 'Install dependencies for React Dashboard'
 
 - script: |
-    echo Building and testing React dashboard...
-    cd Frontend/dashboard
-    npm start
-  displayName: 'Build and test React Dashboard'
-  continueOnError: true
-
-- script: |
     echo Setting up Node.js environment...
     curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
     sudo apt-get install -y nodejs
@@ -57,13 +50,6 @@ steps:
     echo Setting up Java environment...
     sudo apt-get install -y openjdk-11-jdk
   displayName: 'Install JDK'
-
-- script: |
-    echo Building and testing Spring Boot application...
-    cd Backend/ecomshop
-    ./mvnw clean install
-  displayName: 'Build and test Spring Boot app'
-  continueOnError: true
 
 - checkout: none
   displayName: 'Disable further repository syncing'

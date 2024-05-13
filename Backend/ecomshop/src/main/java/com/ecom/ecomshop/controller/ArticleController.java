@@ -77,10 +77,10 @@ public class ArticleController {
         List<Article> articles = articleRepository.findAll();
         articles.forEach(article -> {
             if (article.getCategorie() != null) {
-                String catNom = article.getCategorie().getCatNom();
-                // You can use catNom here as needed
-            } else {
-                // Handle the case where categorie is null
+                // Remove the code that handles category name and use category ID instead
+                Long categoryId = article.getCategorie().getCatId();
+                // Set the category ID to the article
+                article.setCategoryId(categoryId);
             }
         });
         return articles;
@@ -122,7 +122,7 @@ public class ArticleController {
 		                                             @RequestParam("description") String description,
 		                                             @RequestParam("price") BigDecimal price,
 		                                             @RequestParam("quantite") int quantite,
-		                                             @RequestParam("categorieName") String categorieName, // Change to categorieName
+		                                             @RequestParam("categorieId") int categorieId, // Change to categorieName
 		                                             @RequestParam(value = "image", required = false) MultipartFile imageFile) {
 		    try {
 		        // Create and save the article to generate an ID
@@ -134,11 +134,11 @@ public class ArticleController {
 		        article.setImage("default.jpg");  // Initially set to default image
 		
 		        // Retrieve the category from database based on name
-		        Optional<Categorie> categorieOptional = categorieRepository.findByCatNom(categorieName);
+		        Optional<Categorie> categorieOptional = categorieRepository.findByCatId(categorieId);
 		        if (categorieOptional.isPresent()) {
 		            article.setCategorie(categorieOptional.get());
 		        } else {
-		            return ResponseEntity.badRequest().body("Category not found with name: " + categorieName);
+		            return ResponseEntity.badRequest().body("Category not found with id : " + categorieId);
 		        }
 		
 		        article = articleRepository.save(article);  // Save to generate ID

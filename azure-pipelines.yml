@@ -14,7 +14,6 @@ steps:
     flutter doctor
   displayName: 'Install Flutter'
 
-
 - script: |
     echo Installing dependencies...
     cd Frontend/user/appUser
@@ -30,5 +29,5 @@ steps:
 - script: |
     echo Running Flutter app...
     cd Frontend/user/appUser
-    flutter run -d chrome
+    flutter run -d web-server
   displayName: 'Run Flutter app as web server'

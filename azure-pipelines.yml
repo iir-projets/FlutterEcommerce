@@ -29,5 +29,5 @@ steps:
 - script: |
     echo Running Flutter app...
     cd Frontend/user/appUser
-    flutter run -d web-server
+    flutter run
   displayName: 'Run Flutter app as web server'

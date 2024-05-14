@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  flutter-web:
+    build:
+      context: ./Frontend/user/appUser
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    networks:
+      - app-network
+
+  spring-boot-api:
+    build:
+      context: ./Backend/ecomshop
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    networks:
+      - app-network
+
+  react-app:
+    build:
+      context: ./Frontend/dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - spring-boot-api  # Assuming React app might depend on the backend API
+
+networks:
+  app-network:
+    driver: bridge

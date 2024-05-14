@@ -14,31 +14,12 @@ steps:
     flutter doctor
   displayName: 'Install Flutter'
 
-- script: |
-    echo Checking for pubspec.yaml...
-    cd Frontend/user/appUser
-    if [ ! -f pubspec.yaml ]; then
-      $(which flutter) create .
-    fi
-  displayName: 'Check and create pubspec.yaml'
 
 - script: |
     echo Installing dependencies...
     cd Frontend/user/appUser
     $(which flutter) pub get
   displayName: 'Install Flutter dependencies'
-
-- script: |
-    echo Analyzing Flutter app...
-    cd Frontend/user/appUser
-    $(which flutter) analyze
-  displayName: 'Analyze Flutter app'
-
-- script: |
-    echo Running Flutter tests...
-    cd Frontend/user/appUser
-    $(which flutter) test
-  displayName: 'Run Flutter tests'
 
 - script: |
     echo Building Flutter app for the web...

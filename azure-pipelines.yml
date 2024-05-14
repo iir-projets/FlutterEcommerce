@@ -14,30 +14,28 @@ steps:
   displayName: 'Install Flutter'
 
 - script: |
-    echo Creating pubspec.yaml...
-    rm -f pubspec.yaml
-    flutter create .
-  displayName: 'Create pubspec.yaml'
-
-- script: |
     echo Installing dependencies...
+    cd Frontend/user/appUser
     flutter pub get
   displayName: 'Install Flutter dependencies'
 
 - script: |
     echo Building Flutter app...
+    cd Frontend/user/appUser
     flutter clean
     flutter build web --release
   displayName: 'Build Flutter app'
 
 - script: |
-    echo Running Flutter app in Chrome...
-    flutter run -d chrome --release
-  displayName: 'Run Flutter app in Chrome'
+    echo Running Flutter app...
+    cd Frontend/user/appUser
+    flutter run -d web-server
+  displayName: 'Run Flutter app'
+  continueOnError: true
 
 - checkout: none
   displayName: 'Disable further repository syncing'
 
 - script: |
-    echo All Flutter builds and tests are completed.
+    echo All frontend builds and tests are completed.
   displayName: 'Final Step'

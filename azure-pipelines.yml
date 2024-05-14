@@ -9,28 +9,7 @@ pool:
 steps:
 - script: |
     echo Installing Flutter...
+    cd ecommerce-boutique/Frontend/user/appUser
     sudo snap install flutter --classic
     flutter doctor
   displayName: 'Install Flutter'
-
-- script: |
-    echo Checking for pubspec.yaml...
-    if [ ! -f pubspec.yaml ]; then
-      flutter create .
-    fi
-  displayName: 'Check and create pubspec.yaml'
-
-- script: |
-    echo Installing dependencies...
-    flutter pub get
-  displayName: 'Install Flutter dependencies'
-
-- script: |
-    echo Building Flutter app...
-    flutter build apk --release
-  displayName: 'Build Flutter app'
-
-- script: |
-    echo Running Flutter app...
-    flutter run -d chrome
-  displayName: 'Run Flutter app'

@@ -18,17 +18,17 @@ steps:
 - script: |
     echo Installing dependencies...
     cd Frontend/user/appUser
-    $(which flutter) pub get
+    flutter pub get
   displayName: 'Install Flutter dependencies'
 
 - script: |
     echo Building Flutter app for the web...
     cd Frontend/user/appUser
-    $(which flutter) build web
+    flutter build web
   displayName: 'Build Flutter app for the web'
 
 - script: |
     echo Running Flutter app...
     cd Frontend/user/appUser
-    $(which flutter) run -d chrome
+    flutter run -d chrome
   displayName: 'Run Flutter app as web server'

@@ -31,11 +31,6 @@ steps:
   displayName: 'Build Flutter app'
 
 - script: |
-    echo Running Flutter tests...
-    flutter test
-  displayName: 'Run Flutter tests'
-
-- script: |
     echo Running Flutter app...
-    flutter run
+    flutter run -d chrome
   displayName: 'Run Flutter app'

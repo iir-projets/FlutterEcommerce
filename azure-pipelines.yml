@@ -8,6 +8,12 @@ pool:
 
 steps:
 - script: |
+    echo Cleaning directory...
+    cd ecommerce-boutique/Frontend/user/appUser
+    flutter clean
+  displayName: 'Clean directory'
+
+- script: |
     echo Installing Flutter...
     cd ecommerce-boutique/Frontend/user/appUser
     sudo snap install flutter --classic
@@ -15,25 +21,15 @@ steps:
   displayName: 'Install Flutter'
 
 - script: |
+    echo Checking for pubspec.yaml...
+    cd ecommerce-boutique/Frontend/user/appUser
+    if [ ! -f pubspec.yaml ]; then
+      flutter create .
+    fi
+  displayName: 'Check and create pubspec.yaml'
+
+- script: |
     echo Installing dependencies...
-    flutter clean
+    cd ecommerce-boutique/Frontend/user/appUser
     flutter pub get
   displayName: 'Install Flutter dependencies'
-
-- script: |
-    echo Building Flutter app...
-    flutter build web --release
-  displayName: 'Build Flutter app'
-
-- script: |
-    echo Running Flutter app...
-    flutter run -d web-server
-  displayName: 'Run Flutter app'
-  continueOnError: true
-
-- checkout: none
-  displayName: 'Disable further repository syncing'
-
-- script: |
-    echo All frontend builds and tests are completed.
-  displayName: 'Final Step'

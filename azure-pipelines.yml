@@ -7,10 +7,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: |
-    echo Cleaning directory...
-    $(which flutter) clean
-  displayName: 'Clean directory'
 
 - script: |
     echo Installing Flutter...

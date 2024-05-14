@@ -15,14 +15,12 @@ steps:
 
 - script: |
     echo Installing Flutter...
-    cd ecommerce-boutique/Frontend/user/appUser
     sudo snap install flutter --classic
     flutter doctor
   displayName: 'Install Flutter'
 
 - script: |
     echo Checking for pubspec.yaml...
-    cd ecommerce-boutique/Frontend/user/appUser
     if [ ! -f pubspec.yaml ]; then
       flutter create .
     fi
@@ -30,6 +28,5 @@ steps:
 
 - script: |
     echo Installing dependencies...
-    cd ecommerce-boutique/Frontend/user/appUser
     flutter pub get
   displayName: 'Install Flutter dependencies'

@@ -29,6 +29,18 @@ steps:
   displayName: 'Install Flutter dependencies'
 
 - script: |
+    echo Analyzing Flutter app...
+    cd Frontend/user/appUser
+    $(which flutter) analyze
+  displayName: 'Analyze Flutter app'
+
+- script: |
+    echo Running Flutter tests...
+    cd Frontend/user/appUser
+    $(which flutter) test
+  displayName: 'Run Flutter tests'
+
+- script: |
     echo Building Flutter app for the web...
     cd Frontend/user/appUser
     $(which flutter) build web

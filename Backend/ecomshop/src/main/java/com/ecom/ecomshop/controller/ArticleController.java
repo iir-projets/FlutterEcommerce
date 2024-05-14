@@ -55,24 +55,7 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
-    // @GetMapping("/articles")
-    // public List<Article> getAllArticles() {
-    //     return articleRepository.findAll();
-    // }
-
-//     @GetMapping("/articles")
-// public List<Article> getAllArticles() {
-//     List<Article> articles = articleRepository.findAll();
-//     articles.forEach(article -> {
-//         // Ajouter le chemin complet à l'image
-//         String imageName = article.getImage();
-//         String imageUrl = "img/" + imageName; // Chemin relatif
-//         String fullImageUrl = getBaseUrl() + imageUrl; // Chemin complet
-//         article.setImage(fullImageUrl);
-//     });
-//     return articles;
-// }
-    @GetMapping("/articles")
+    /*@GetMapping("/articles")
     public List<Article> getArticles() {
         List<Article> articles = articleRepository.findAll();
         articles.forEach(article -> {
@@ -84,7 +67,7 @@ public class ArticleController {
             }
         });
         return articles;
-    }
+    }*/
 		
 		@GetMapping("/articlesAll")
 		public ResponseEntity<Object> getAllArticles() {

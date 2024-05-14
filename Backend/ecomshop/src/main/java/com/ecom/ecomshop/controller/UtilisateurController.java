@@ -36,10 +36,6 @@ public class UtilisateurController {
     public Optional<Utilisateur> obtenirUtilisateurParId(@PathVariable long user_id) {
         return utilisateurRepository.findById(user_id);
     }
-    @GetMapping("/user/getUser")
-    public List<Utilisateur> obtenirUtilisateur() {
-        return utilisateurRepository.findAll();
-    }
     
     @PostMapping("/user/connexion")
     @ResponseBody

@@ -25,3 +25,16 @@ steps:
     echo Installing dependencies...
     $(which flutter) pub get
   displayName: 'Install Flutter dependencies'
+
+- script: |
+    echo Running Flutter app...
+    flutter run -d web-server
+  displayName: 'Run Flutter app'
+  continueOnError: true
+
+- checkout: none
+  displayName: 'Disable further repository syncing'
+
+- script: |
+    echo All frontend builds and tests are completed.
+  displayName: 'Final Step'

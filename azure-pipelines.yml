@@ -31,14 +31,6 @@ steps:
   displayName: 'Build Flutter app for the web'
 
 - script: |
-    echo Running Flutter app in Chrome...
-    google-chrome-stable --app=http://localhost:5000
+    echo Running Flutter app...
+    $(which flutter) run -d chrome
   displayName: 'Run Flutter app in Chrome'
-  continueOnError: true
-
-- checkout: none
-  displayName: 'Disable further repository syncing'
-
-- script: |
-    echo All frontend builds and tests are completed.
-  displayName: 'Final Step'

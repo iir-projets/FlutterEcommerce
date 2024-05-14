@@ -1,0 +1,44 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    echo Installing Flutter...
+    sudo snap install flutter --classic
+    flutter doctor
+  displayName: 'Install Flutter'
+
+- script: |
+    echo Creating pubspec.yaml...
+    rm -f pubspec.yaml
+    flutter create .
+  displayName: 'Create pubspec.yaml'
+
+- script: |
+    echo Installing dependencies...
+    flutter pub get
+  displayName: 'Install Flutter dependencies'
+
+- script: |
+    echo Building Flutter app...
+    flutter clean
+    flutter build apk --release
+  displayName: 'Build Flutter app'
+
+- script: |
+    echo Running Flutter app...
+    # Command to run Flutter app, e.g., flutter run
+    flutter run --release
+  displayName: 'Run Flutter app'
+
+- checkout: none
+  displayName: 'Disable further repository syncing'
+
+- script: |
+    echo All Flutter builds and tests are completed.
+  displayName: 'Final Step'

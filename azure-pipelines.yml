@@ -16,26 +16,26 @@ steps:
 - script: |
     echo Checking for pubspec.yaml...
     if [ ! -f pubspec.yaml ]; then
-      $(which flutter) create .
+      flutter create .
     fi
   displayName: 'Check and create pubspec.yaml'
 
 - script: |
-    echo Adding flutter_pipeline to pubspec.yaml...
-    echo 'flutter_pipeline: ^3.0.0' >> pubspec.yaml
-  displayName: 'Add flutter_pipeline to pubspec.yaml'
-
-- script: |
     echo Installing dependencies...
-    $(which flutter) pub get
+    flutter pub get
   displayName: 'Install Flutter dependencies'
 
 - script: |
-    echo Building Flutter app for the web...
-    $(which flutter) build web
-  displayName: 'Build Flutter app for the web'
+    echo Building Flutter app...
+    flutter build apk --release
+  displayName: 'Build Flutter app'
+
+- script: |
+    echo Running Flutter tests...
+    flutter test
+  displayName: 'Run Flutter tests'
 
 - script: |
     echo Running Flutter app...
-    $(which flutter) run -d chrome
-  displayName: 'Run Flutter app in Chrome'
+    flutter run
+  displayName: 'Run Flutter app'

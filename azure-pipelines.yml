@@ -7,7 +7,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
 - script: |
     echo Installing Flutter...
     sudo snap install flutter --classic
@@ -29,6 +28,9 @@ steps:
 - script: |
     echo Running Flutter app...
     flutter run -d web-server
+    sleep 30 # Attendez quelques secondes pour que l'application s'exécute
+    sudo apt-get install xdotool -y # Installez xdotool
+    xdotool key q # Envoyez la touche "q" pour quitter l'application Flutter
   displayName: 'Run Flutter app'
   continueOnError: true
 

@@ -9,7 +9,7 @@ pool:
 steps:
 - script: |
     echo Installing Flutter...
-    cd /Frontend/user/appUser
+    cd Frontend/user/appUser
     sudo snap install flutter --classic
     flutter doctor
   displayName: 'Install Flutter'

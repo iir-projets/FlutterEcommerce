@@ -77,10 +77,10 @@ public class ArticleController {
         List<Article> articles = articleRepository.findAll();
         articles.forEach(article -> {
             if (article.getCategorie() != null) {
-                // Remove the code that handles category name and use category ID instead
                 Long categoryId = article.getCategorie().getCatId();
-                // Set the category ID to the article
-                article.setCategoryId(categoryId);
+                // Fetch the complete Categorie object from the repository using its ID
+                Optional<Categorie> categorieOptional = categorieRepository.findById(categoryId);
+                categorieOptional.ifPresent(article::setCategorie); // Set the fetched Categorie object
             }
         });
         return articles;

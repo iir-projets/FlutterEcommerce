@@ -2,7 +2,6 @@ package com.ecom.ecomshop.model;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -14,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "article")
@@ -32,10 +30,7 @@ public class Article {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
     @JoinColumn(name = "categorie_id") 
-    @JsonIgnore 
     private Categorie categorie; 
-    @Transient
-    private Long categoryId; // Transient to exclude from persistence
 
     public Article() {
     }
@@ -93,13 +88,6 @@ public class Article {
 
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
-    }
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
     }
 
 }

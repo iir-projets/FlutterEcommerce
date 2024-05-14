@@ -138,3 +138,61 @@ export const ProductGrid = [
       ReportsTo: "Carson",
     },
   ];
+  export const customersData = [
+    {
+      CustomerID: 1,
+      CustomerName: "wiam e",
+      CustomerEmail: "wiam@gmail.com",
+      phonenumber: "0625894758",
+      orders: "40",
+    },
+    {
+      CustomerID: 2,
+      CustomerName: "Safaa el",
+      CustomerEmail: "safaa@gmail.com",
+      phonenumber: " 061547858",
+      orders: "20",
+    },
+    {
+      CustomerID: 3,
+      CustomerName: "karim aitali",
+      CustomerEmail: "karim@gmail.com",
+      phonenumber: "06124578",
+      orders: "12",
+    },
+  ];export const customersGrid = [
+    { type: "checkbox", width: "50" },
+    {
+      field: "nom",
+      headerText: "last name",
+      width: "120",
+      textAlign: "Center",
+      isPrimaryKey: true,
+    },
+    {
+      field: "prenom",
+      headerText: "first name",
+      width: "150",
+      textAlign: "Center",
+    },
+    {
+      field: "email",
+      headerText: "email",
+      width: "130",
+      format: "yMd",
+      textAlign: "Center",
+    },
+    {
+      field: "address",
+      headerText: "address",
+      width: "100",
+      format: "C2",
+      textAlign: "Center",
+    },
+    {
+      field: "telephone",
+      headerText: "phone number",
+      width: "150",
+      textAlign: "Center",
+    },
+  ];

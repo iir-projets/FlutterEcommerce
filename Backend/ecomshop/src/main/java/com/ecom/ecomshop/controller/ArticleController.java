@@ -55,36 +55,19 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
-    // @GetMapping("/articles")
-    // public List<Article> getAllArticles() {
-    //     return articleRepository.findAll();
-    // }
-
-//     @GetMapping("/articles")
-// public List<Article> getAllArticles() {
-//     List<Article> articles = articleRepository.findAll();
-//     articles.forEach(article -> {
-//         // Ajouter le chemin complet à l'image
-//         String imageName = article.getImage();
-//         String imageUrl = "img/" + imageName; // Chemin relatif
-//         String fullImageUrl = getBaseUrl() + imageUrl; // Chemin complet
-//         article.setImage(fullImageUrl);
-//     });
-//     return articles;
-// }
-    @GetMapping("/articles")
+    /*@GetMapping("/articles")
     public List<Article> getArticles() {
         List<Article> articles = articleRepository.findAll();
         articles.forEach(article -> {
             if (article.getCategorie() != null) {
-                // Remove the code that handles category name and use category ID instead
                 Long categoryId = article.getCategorie().getCatId();
-                // Set the category ID to the article
-                article.setCategoryId(categoryId);
+                // Fetch the complete Categorie object from the repository using its ID
+                Optional<Categorie> categorieOptional = categorieRepository.findById(categoryId);
+                categorieOptional.ifPresent(article::setCategorie); // Set the fetched Categorie object
             }
         });
         return articles;
-    }
+    }*/
 		
 		@GetMapping("/articlesAll")
 		public ResponseEntity<Object> getAllArticles() {

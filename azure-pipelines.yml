@@ -21,6 +21,11 @@ steps:
   displayName: 'Check and create pubspec.yaml'
 
 - script: |
+    echo Adding flutter_pipeline to pubspec.yaml...
+    echo 'flutter_pipeline: ^3.0.0' >> pubspec.yaml
+  displayName: 'Add flutter_pipeline to pubspec.yaml'
+
+- script: |
     echo Installing dependencies...
     $(which flutter) pub get
   displayName: 'Install Flutter dependencies'

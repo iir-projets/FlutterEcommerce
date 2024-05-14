@@ -27,14 +27,13 @@ steps:
 - script: |
     echo Building Flutter app...
     flutter clean
-    flutter build apk --release
+    flutter build web --release
   displayName: 'Build Flutter app'
 
 - script: |
-    echo Running Flutter app...
-    # Command to run Flutter app, e.g., flutter run
-    flutter run --release
-  displayName: 'Run Flutter app'
+    echo Running Flutter app in Chrome...
+    flutter run -d chrome --release
+  displayName: 'Run Flutter app in Chrome'
 
 - checkout: none
   displayName: 'Disable further repository syncing'

@@ -9,7 +9,7 @@ pool:
 steps:
 - script: |
     echo Cleaning directory...
-    /snap/bin/flutter clean
+    $(which flutter) clean
   displayName: 'Clean directory'
 
 - script: |
@@ -21,11 +21,11 @@ steps:
 - script: |
     echo Checking for pubspec.yaml...
     if [ ! -f pubspec.yaml ]; then
-      /snap/bin/flutter create .
+      $(which flutter) create .
     fi
   displayName: 'Check and create pubspec.yaml'
 
 - script: |
     echo Installing dependencies...
-    /snap/bin/flutter pub get
+    $(which flutter) pub get
   displayName: 'Install Flutter dependencies'

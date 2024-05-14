@@ -9,19 +9,19 @@ pool:
 steps:
 - script: |
     echo Installing Flutter...
+    cd ecommerce-boutique/Frontend/user/appUser
     sudo snap install flutter --classic
     flutter doctor
   displayName: 'Install Flutter'
 
 - script: |
     echo Installing dependencies...
-    cd ecommerce-boutique/Frontend/user/appUser
+    flutter clean
     flutter pub get
   displayName: 'Install Flutter dependencies'
 
 - script: |
     echo Building Flutter app...
-    flutter clean
     flutter build web --release
   displayName: 'Build Flutter app'
 

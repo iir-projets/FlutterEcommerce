@@ -2,15 +2,23 @@ package com.ecom.ecomshop.model;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "article")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,17 +27,20 @@ public class Article {
     private String name;
     private String description;
     private BigDecimal price;
-    private String image; // Path to the image
+    private String image; // Chemin vers l'image
+    private int quantite; // Attribut quantite
 
-    // Constructor
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) 
+    @JoinColumn(name = "categorie_id") 
+    @JsonIgnore 
+    private Categorie categorie; 
+    @Transient
+    private Long categoryId; // Transient to exclude from persistence
+
     public Article() {
     }
 
-    // Getters
-    public Long getId() {
-        return articleId;
-    }
-
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -45,12 +56,17 @@ public class Article {
     public String getImage() {
         return image;
     }
+    
+    public int getQuantite() {
+        return quantite;
+    }
+    public Long getId() {
+        return articleId;
+    }
 
-    // Setters
     public void setId(Long id) {
         this.articleId = id;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -66,4 +82,24 @@ public class Article {
     public void setImage(String image) {
         this.image = image;
     }
+    
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
 }

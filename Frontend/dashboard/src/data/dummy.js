@@ -7,7 +7,7 @@ import {
   // AiOutlineStock,
 } from "react-icons/ai";
 import {
-  FiShoppingBag,
+  // FiShoppingBag,
   FiCreditCard,
   // FiStar,
   FiShoppingCart,
@@ -22,22 +22,15 @@ import {
 import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine} from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
-// import { HiOutlineRefresh } from "react-icons/hi";
-// import { TiTick } from "react-icons/ti";
-// import { GiLouvrePyramid } from "react-icons/gi";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 import { GrLocation } from "react-icons/gr";
 import avatar from "./avatar.jpg";
 import avatar2 from "./avatar2.jpg";
 import avatar3 from "./avatar3.png";
 import avatar4 from "./avatar4.jpg";
-// import product1 from "./product1.jpg";
-// import product2 from "./product2.jpg";
-// import product3 from "./product3.jpg";
-// import product4 from "./product4.jpg";
 import product5 from "./product5.jpg";
 import product6 from "./product6.jpg";
-// import product7 from "./product7.jpg";
-// import product8 from "./product8.jpg";
 
 export const gridOrderImage = (props) => (
   <div>
@@ -136,19 +129,19 @@ export const EditorData = () => (
     </h3>
   </div>
 );
-const customerGridImage = (props) => (
-  <div className="image flex gap-4">
-    <img
-      className="rounded-full w-10 h-10"
-      src={props.CustomerImage}
-      alt="employee"
-    />
-    <div>
-      <p>{props.CustomerName}</p>
-      <p>{props.CustomerEmail}</p>
-    </div>
-  </div>
-);
+// const customerGridImage = (props) => (
+//   <div className="image flex gap-4">
+//     <img
+//       className="rounded-full w-10 h-10"
+//       src={props.CustomerImage}
+//       alt="employee"
+//     />
+//     <div>
+//       <p>{props.CustomerName}</p>
+//       <p>{props.CustomerEmail}</p>
+//     </div>
+//   </div>
+// );
 
 const customerGridStatus = (props) => (
   <div className="flex gap-2 justify-center items-center text-gray-700 capitalize">
@@ -411,47 +404,31 @@ export const LinePrimaryYAxis = {
 export const customersGrid = [
   { type: "checkbox", width: "50" },
   {
+    field: "CustomerName",
     headerText: "Name",
     width: "150",
-    template: customerGridImage,
     textAlign: "Center",
   },
   {
-    field: "ProjectName",
-    headerText: "Project Name",
-    width: "150",
-    textAlign: "Center",
-  },
-  {
-    field: "Status",
-    headerText: "Status",
+    field: "CustomerEmail",
+    headerText: "email",
     width: "130",
     format: "yMd",
     textAlign: "Center",
-    template: customerGridStatus,
   },
   {
-    field: "Weeks",
-    headerText: "Weeks",
+    field: "orders",
+    headerText: "orders",
     width: "100",
     format: "C2",
     textAlign: "Center",
   },
   {
-    field: "Budget",
-    headerText: "Budget",
-    width: "100",
-    format: "yMd",
-    textAlign: "Center",
-  },
-
-  {
-    field: "Location",
-    headerText: "Location",
+    field: "phonenumber",
+    headerText: "phone number",
     width: "150",
     textAlign: "Center",
   },
-
   {
     field: "CustomerID",
     headerText: "Customer ID",
@@ -463,58 +440,20 @@ export const customersGrid = [
 
 export const employeesGrid = [
   {
-    headerText: "Employee",
+    headerText: "image",
     width: "150",
     template: gridEmployeeProfile,
     textAlign: "Center",
   },
-  { field: "Name", headerText: "", width: "0", textAlign: "Center" },
   {
-    field: "Title",
+    field: "name",
     headerText: "Designation",
     width: "170",
-    textAlign: "Center",
-  },
-  {
-    headerText: "Country",
-    width: "120",
-    textAlign: "Center",
-    template: gridEmployeeCountry,
-  },
-
-  {
-    field: "HireDate",
-    headerText: "Hire Date",
-    width: "135",
-    format: "yMd",
-    textAlign: "Center",
-  },
-
-  {
-    field: "ReportsTo",
-    headerText: "Reports To",
-    width: "120",
-    textAlign: "Center",
-  },
-  {
-    field: "EmployeeID",
-    headerText: "Employee ID",
-    width: "125",
     textAlign: "Center",
   },
 ];
 
 export const links = [
-  {
-    title: "Dashboard",
-    links: [
-      {
-        name: "ecommerce",
-        icon: <FiShoppingBag />,
-      },
-    ],
-  },
-
   {
     title: "Pages",
     links: [
@@ -523,8 +462,8 @@ export const links = [
         icon: <AiOutlineShoppingCart />,
       },
       {
-        name: "employees",
-        icon: <IoMdContacts />,
+        name: "Categorie",
+        icon: <BiSolidCategoryAlt />,
       },
       {
         name: "customers",
@@ -532,69 +471,10 @@ export const links = [
       },
       {
         name: "Products",
-        icon: <RiContactsLine />,
+        icon: <MdOutlineProductionQuantityLimits />,
       },
     ],
   },
-  // {
-  //   title: "Apps",
-  //   links: [
-  //     {
-  //       name: "calendar",
-  //       icon: <AiOutlineCalendar />,
-  //     },
-  //     {
-  //       name: "kanban",
-  //       icon: <BsKanban />,
-  //     },
-  //     {
-  //       name: "editor",
-  //       icon: <FiEdit />,
-  //     },
-  //     {
-  //       name: "color-picker",
-  //       icon: <BiColorFill />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Charts",
-  //   links: [
-  //     {
-  //       name: "line",
-  //       icon: <AiOutlineStock />,
-  //     },
-  //     {
-  //       name: "area",
-  //       icon: <AiOutlineAreaChart />,
-  //     },
-
-  //     {
-  //       name: "bar",
-  //       icon: <AiOutlineBarChart />,
-  //     },
-  //     {
-  //       name: "pie",
-  //       icon: <FiPieChart />,
-  //     },
-  //     {
-  //       name: "financial",
-  //       icon: <RiStockLine />,
-  //     },
-  //     {
-  //       name: "color-mapping",
-  //       icon: <BsBarChart />,
-  //     },
-  //     {
-  //       name: "pyramid",
-  //       icon: <GiLouvrePyramid />,
-  //     },
-  //     {
-  //       name: "stacked",
-  //       icon: <AiOutlineBarChart />,
-  //     },
-  //   ],
-  // },
 ];
 
 export const cartData = [
@@ -630,9 +510,7 @@ export const earningData = [
 export const recentTransactions = [
   {
     icon: <BsCurrencyDollar />,
-    amount: "+$350",
-    title: "Paypal Transfer",
-    desc: "Money Added",
+    amount: "3",
     iconColor: "#03C9D7",
     iconBg: "#E5FAFB",
     pcColor: "green-600",
@@ -720,7 +598,7 @@ export const themeColors = [
   },
   {
     name: "green-theme",
-    color: "#03C9D7",
+    color: "#C5A582",
   }
 ];
 
@@ -749,15 +627,15 @@ export const userProfileData = [
 ];
 
 export const ordersGrid = [
-  {
-    headerText: "Image",
-    template: gridOrderImage,
-    textAlign: "Center",
-    width: "120",
-  },
+  // {
+  //   headerText: "Image",
+  //   template: gridOrderImage,
+  //   textAlign: "Center",
+  //   width: "120",
+  // },
   {
     field: "OrderItems",
-    headerText: "Item",
+    headerText: "Item ordered",
     width: "150",
     editType: "dropdownedit",
     textAlign: "Center",
@@ -777,11 +655,12 @@ export const ordersGrid = [
     width: "150",
   },
   {
-    headerText: "Status",
-    template: gridOrderStatus,
-    field: "OrderItems",
+    field: "phonenumber",
+    headerText: "phone number",
+    format: "C2",
     textAlign: "Center",
-    width: "120",
+    editType: "numericedit",
+    width: "150",
   },
   {
     field: "OrderID",
@@ -789,62 +668,37 @@ export const ordersGrid = [
     width: "120",
     textAlign: "Center",
   },
-
-  {
-    field: "Location",
-    headerText: "Location",
-    width: "150",
-    textAlign: "Center",
-  },
 ];
 
 export const customersData = [
   {
-    CustomerID: 1001,
-    CustomerName: "Nirav Joshi",
-    CustomerEmail: "nirav@gmail.com",
-    CustomerImage: avatar2,
-    ProjectName: "Hosting Press HTML",
-    Status: "Active",
-    StatusBg: "#8BE78B",
-    Weeks: "40",
-    Budget: "$2.4k",
-    Location: "India",
+    CustomerID: 1,
+    CustomerName: "wiam e",
+    CustomerEmail: "wiam@gmail.com",
+    phonenumber: "0625894758",
+    orders: "40",
   },
   {
-    CustomerID: 1002,
-
-    CustomerName: "Sunil Joshi",
-    CustomerEmail: "sunil@gmail.com",
-    ProjectName: "Elite Admin",
-    Status: "Active",
-    CustomerImage: avatar3,
-
-    StatusBg: "#8BE78B",
-    Weeks: "11",
-    Budget: "$3.9k",
-    Location: "India",
+    CustomerID: 2,
+    CustomerName: "Safaa b",
+    CustomerEmail: "safaa@gmail.com",
+    phonenumber: " 061547896",
+    orders: "20",
   },
   {
-    CustomerID: 1003,
-
-    CustomerName: "Andrew McDownland",
-    CustomerEmail: "andrew@gmail.com",
-    ProjectName: "Real Homes WP Theme",
-    Status: "Pending",
-    CustomerImage: avatar4,
-    StatusBg: "#FEC90F",
-    Weeks: "19",
-    Budget: "$24.5k",
-    Location: "USA",
+    CustomerID: 3,
+    CustomerName: "karim a",
+    CustomerEmail: "karim@gmail.com",
+    phonenumber: "06124578",
+    orders: "12",
   },
 ];
 
 export const employeesData = [
   {
     EmployeeID: 1,
-    Name: "Nancy Davolio",
-    Title: "Sales Representative",
+    name: "shoes",
+    Namkje: "Sales Representative",
     HireDate: "01/02/2021",
     Country: "USA",
     ReportsTo: "Carson",
@@ -852,7 +706,7 @@ export const employeesData = [
   },
   {
     EmployeeID: 2,
-    Name: "Nasimiyu Danai",
+    name: "bags",
     Title: "Marketing Head",
     HireDate: "01/02/2021",
     Country: "USA",
@@ -861,7 +715,7 @@ export const employeesData = [
   },
   {
     EmployeeID: 3,
-    Name: "Iulia Albu",
+    name: "perfums",
     Title: "HR",
     HireDate: "01/02/2021",
     Country: "USA",
@@ -872,24 +726,23 @@ export const employeesData = [
 
 export const ordersData = [
   {
-    OrderID: 10248,
-    CustomerName: "Vinet",
-
+    OrderID: 1 ,
+    CustomerName: "wiam",
     TotalAmount: 32.38,
-    OrderItems: "Fresh Tomato",
-    Location: "USA",
-    Status: "pending",
-    StatusBg: "#FB9678",
+    OrderItems: "shoes",
+    phonenumber : "0625894563",
+    // Status: "pending",
+    // StatusBg: "#FB9678",
     ProductImage: product6,
   },
   {
-    OrderID: 345653,
-    CustomerName: "Carson Darrin",
+    OrderID: 2,
+    CustomerName: "safaa",
     TotalAmount: 56.34,
-    OrderItems: "Butter Scotch",
-    Location: "Delhi",
-    Status: "complete",
-    StatusBg: "#8BE78B",
+    OrderItems: "shoes",
+    phonenumber : "0625897863",
+    // Status: "complete",
+    // StatusBg: "#8BE78B",
     ProductImage: product5,
   },
 ];

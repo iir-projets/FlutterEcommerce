@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import loginimage from "../assets/products/images/Login-amico.png"
 
 const Adminlog = () => {
   const [username, setUsername] = useState("");
@@ -20,7 +21,7 @@ const Adminlog = () => {
         const userId = response.data.admin.user_id; // Assuming userId is directly under 'admin' object
         storeUserId(userId); // Store user ID in local storage
         console.log(userId);
-        navigate("/ecommerce");
+        navigate("/products");
       } else {
         alert("Identifiants incorrects");
       }
@@ -39,13 +40,13 @@ const Adminlog = () => {
             <div className="card" style={{ borderRadius: "1rem" }}>
               <div className="row g-0">
                 <div className="col-md-6 col-lg-5 d-none d-md-block">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp" alt="login form" className="img-fluid" style={{ borderRadius: "1rem 0 0 1rem" }} />
+                  <img src={loginimage} alt="login form" className="img-fluid" style={{ borderRadius: "1rem 0 0 1rem" }} />
                 </div>
                 <div className="col-md-6 col-lg-7 d-flex align-items-center">
                   <div className="card-body p-4 p-lg-5 text-black">
                     <div className="d-flex align-items-center mb-3 pb-1">
                       <i className="fas fa-cubes fa-2x me-3" style={{ color: "#ccb0b6" }}></i>
-                      <span className="h1 fw-bold mb-0">Logo</span>
+                      <span className="h1 fw-bold mb-0">e-commerce</span>
                     </div>
                     <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: "1px" }}>Sign into your account</h5>
                     <form onSubmit={handleLogin}> {/* Added onSubmit handler */}

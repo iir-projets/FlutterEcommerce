@@ -1,11 +1,17 @@
 package com.ecom.ecomshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import com.ecom.ecomshop.model.Article;
+import com.ecom.ecomshop.model.Categorie;
 import com.ecom.ecomshop.repository.ArticleRepository;
+import com.ecom.ecomshop.repository.CategorieRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 import org.springframework.data.domain.Page;
@@ -13,13 +19,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,8 +36,10 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
-    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop","src", "main", "resources", "static", "images");
+    @Autowired
+    private CategorieRepository categorieRepository;
 
+    private final Path rootLocation = Paths.get(System.getProperty("user.dir"), "ecomshop", "src", "main", "resources", "static", "images");
 
     @jakarta.annotation.PostConstruct
     public void init() {
@@ -46,98 +55,151 @@ public class ArticleController {
         return articleRepository.findAll();
     }
 
+    // @GetMapping("/articles")
+    // public List<Article> getAllArticles() {
+    //     return articleRepository.findAll();
+    // }
+
+//     @GetMapping("/articles")
+// public List<Article> getAllArticles() {
+//     List<Article> articles = articleRepository.findAll();
+//     articles.forEach(article -> {
+//         // Ajouter le chemin complet à l'image
+//         String imageName = article.getImage();
+//         String imageUrl = "img/" + imageName; // Chemin relatif
+//         String fullImageUrl = getBaseUrl() + imageUrl; // Chemin complet
+//         article.setImage(fullImageUrl);
+//     });
+//     return articles;
+// }
     @GetMapping("/articles")
-    public List<Article> getAllArticles() {
-        return articleRepository.findAll();
+    public List<Article> getArticles() {
+        List<Article> articles = articleRepository.findAll();
+        articles.forEach(article -> {
+            if (article.getCategorie() != null) {
+                // Remove the code that handles category name and use category ID instead
+                Long categoryId = article.getCategorie().getCatId();
+                // Set the category ID to the article
+                article.setCategoryId(categoryId);
+            }
+        });
+        return articles;
     }
+		
+		@GetMapping("/articlesAll")
+		public ResponseEntity<Object> getAllArticles() {
+		    List<Article> articles = articleRepository.findAll();
+		
+		    // Parcourir chaque article pour ajouter le chemin complet de l'image
+		    articles.forEach(article -> {
+		        String imageName = article.getImage();
+		        String imageUrl = "images/" + imageName; // Chemin complet de l'image
+		        article.setImage(imageUrl);
+		    });
+		
+		    // Créer un objet pour stocker le statut et les produits
+		    Map<String, Object> responseData = new HashMap<>();
+		
+		    // Ajouter le statut à l'objet de réponse
+		    responseData.put("status", "true");
+		
+		    // Ajouter la liste des produits à l'objet de réponse
+		    responseData.put("products", articles);
+		
+		    // Retourner la réponse JSON avec le statut et les produits
+		    return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseData);
+		}
+		
+		private String getBaseUrl() {
+		    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		    String baseUrl = request.getRequestURL().toString();
+		    return baseUrl.substring(0, baseUrl.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+		}
+		
+		
+		@PostMapping("/addArticle")
+		public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
+		                                             @RequestParam("description") String description,
+		                                             @RequestParam("price") BigDecimal price,
+		                                             @RequestParam("quantite") int quantite,
+		                                             @RequestParam("categorieId") int categorieId, // Change to categorieName
+		                                             @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+		    try {
+		        // Create and save the article to generate an ID
+		        Article article = new Article();
+		        article.setName(name);
+		        article.setDescription(description);
+		        article.setPrice(price);
+		        article.setQuantite(quantite);
+		        article.setImage("default.jpg");  // Initially set to default image
+		
+		        // Retrieve the category from database based on name
+		        Optional<Categorie> categorieOptional = categorieRepository.findByCatId(categorieId);
+		        if (categorieOptional.isPresent()) {
+		            article.setCategorie(categorieOptional.get());
+		        } else {
+		            return ResponseEntity.badRequest().body("Category not found with id : " + categorieId);
+		        }
+		
+		        article = articleRepository.save(article);  // Save to generate ID
+		
+		        // Process and save the image if it's provided
+		        if (imageFile != null && !imageFile.isEmpty()) {
+		            String imageName = article.getId() + "." + getExtension(imageFile.getOriginalFilename());
+		            Path targetLocation = rootLocation.resolve(imageName);
+		            Files.copy(imageFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+		            article.setImage(imageName);  // Update article with the actual image name
+		            articleRepository.save(article);  // Save the updated article
+		        }
+		
+		        return ResponseEntity.ok("Article ajouté avec succès: " + article.getId());
+		    } catch (Exception e) {
+		        return ResponseEntity.badRequest().body("Failed to add article: " + e.getMessage());
+		    }
+		}
 
-    @PostMapping("/addArticle")
-    public ResponseEntity<String> ajouterArticle(@RequestParam("name") String name,
-                                                 @RequestParam("description") String description,
-                                                 @RequestParam("price") BigDecimal price,
-                                                 @RequestParam(value = "image", required = false) MultipartFile imageFile) {
-        try {
-            // Create and save the article to generate an ID
-            Article article = new Article();
-            article.setName(name);
-            article.setDescription(description);
-            article.setPrice(price);
-            article.setImage("default.jpg");  // Initially set to default image
-            article = articleRepository.save(article);  // Save to generate ID
-    
-            // Process and save the image if it's provided
-            if (imageFile != null && !imageFile.isEmpty()) {
-                String imageName = article.getId() + "." + getExtension(imageFile.getOriginalFilename());
-                Path targetLocation = rootLocation.resolve(imageName);
-                Files.copy(imageFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-                article.setImage(imageName);  // Update article with the actual image name
-                articleRepository.save(article);  // Save the updated article
-            }
-    
-            return ResponseEntity.ok("Article ajouté avec succès: " + article.getId());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to add article: " + e.getMessage());
-        }
-    }
-    
-    private static String getExtension(String filename) {
-        if (filename == null || filename.isEmpty()) {
-            return "";
-        }
-        int dotIndex = filename.lastIndexOf(".");
-        if (dotIndex >= 0) {
-            return filename.substring(dotIndex + 1);
-        } else {
-            return "";
-        }
-    }
-    
 
-    @PutMapping("/updateArticle/{id}")
-    public String modifierArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
-        Optional<Article> articleOptional = articleRepository.findById(id);
-        if (articleOptional.isPresent()) {
-            Article article = articleOptional.get();
-            if (articleModifie.getName() != null) {
-                article.setName(articleModifie.getName());
-            }
-            if (articleModifie.getDescription() != null) {
-                article.setDescription(articleModifie.getDescription());
-            }
-            if (articleModifie.getPrice() != null) {
-                article.setPrice(articleModifie.getPrice());
-            }
-            if (articleModifie.getImage() != null) {
-                article.setImage(articleModifie.getImage());
-            }
-            articleRepository.save(article);
-            return "Article modifié avec succès";
-        } else {
-            return "Article non trouvé";
-        }
-    }
-
+	@PutMapping("/updaateArticle/{id}")
+	public ResponseEntity<String> modifieerArticle(@PathVariable Long id, @RequestBody Article articleModifie) {
+	    Optional<Article> articleOptional = articleRepository.findById(id);
+	    if (articleOptional.isPresent()) {
+	        Article article = articleOptional.get();
+	        if (articleModifie.getName() != null) {
+	            article.setName(articleModifie.getName());
+	        }
+	        if (articleModifie.getDescription() != null) {
+	            article.setDescription(articleModifie.getDescription());
+	        }
+	        if (articleModifie.getPrice() != null) {
+	            article.setPrice(articleModifie.getPrice());
+	        }
+	        if (articleModifie.getQuantite() != 0) {
+	            article.setQuantite(articleModifie.getQuantite());
+	        }
+	        if (articleModifie.getImage() != null) {
+	            article.setImage(articleModifie.getImage());
+	        }
+	        if (articleModifie.getCategorie() != null) {
+	            article.setCategorie(articleModifie.getCategorie());
+	        }
+	        articleRepository.save(article);
+	        return ResponseEntity.ok("Article modifié avec succès");
+	    } else {
+	        return ResponseEntity.badRequest().body("Article non trouvé");
+	    }
+	}
     @DeleteMapping("/dropArticle/{id}")
-    public String supprimerArticle(@PathVariable Long id) {
-        articleRepository.deleteById(id);
-        return "Article supprimé avec succès";
+    public ResponseEntity<String> supprimerArticle(@PathVariable Long id) {
+        if (articleRepository.existsById(id)) {
+            articleRepository.deleteById(id);
+            return ResponseEntity.ok("Article supprimé avec succès");
+        } else {
+            return ResponseEntity.badRequest().body("Article non trouvé");
+        }
     }
 
-
-    @GetMapping("/pagesArticles")
-    public Page<Article> getAllArticles(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "12") int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return articleRepository.findAll(pageable);
-
-            }
-
-            
+    private String getExtension(String originalFilename) {
+        String[] parts = originalFilename.split("\\.");
+        return parts[parts.length - 1];
     }
-
-
-    
-    
-
-
+}

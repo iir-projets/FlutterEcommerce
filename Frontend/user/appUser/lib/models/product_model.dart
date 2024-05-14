@@ -16,6 +16,12 @@ class Product {
       required this.category,
       required this.rate,
       required this.quantity});
+
+  Null get article_id => null;
+
+  Null get name => null;
+
+  static fromJson(productJson) {}
 }
 
 final List<Product> all = [

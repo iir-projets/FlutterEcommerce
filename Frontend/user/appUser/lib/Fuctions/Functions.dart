@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
-
+// import 'dart:html';
+// import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
 import 'package:ecommerce_mobile_app/models/User.dart';
+import 'package:ecommerce_mobile_app/models/product_model.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 var headers = {'Accept': 'application/json'};
 String urlAPI = "http://192.168.56.1:8081/user";
@@ -35,7 +36,7 @@ Future<bool> Login(String email, String password) async {
           // fhad lblassa ghadi t9adi data ou diriha f variable samih user
           User user = User.fromJson(jsonResponse["user"]);
           await storage.SaveUser(user);
-          print("login seccess");
+          print("login success");
           //////////////////////////////////////////////////////////////////////////////
           return true;
         } else {
@@ -152,7 +153,7 @@ Future<bool> register(String nom, String prenom, String email, String telephone,
 /**************************************************** REGISTER END ****************************************************/
 
 // Fonction pour récupérer les détails de l'utilisateur connecté
-Future<User> getUserDetails() async {
+Future<User?> getUserDetails() async {
   MyStorage storage = Get.find();
   return await storage.getUser();
 }
@@ -200,12 +201,89 @@ Future<bool> editProfile(User user) async {
     }
   } catch (e) {
     print("Une erreur s'est produite: $e");
-    MySnackbar.Warnning("Un problème est survenu, veuillez réessayer plus tard");
+    MySnackbar.Warnning(
+        "Un problème est survenu, veuillez réessayer plus tard");
     return false;
   }
 }
 
+/**************************************************** EDIT END ****************************************************/
+/**************************************************** START CHECK PRODUCT ****************************************************/
 
-/**************************************************** EDIT END ****************************************************/ 
+String urlAPIProduct = "http://192.168.56.1:8081";
 
+Future<bool> checkAllProducts() async {
+  try {
+    if (await CheckInternet()) {
+      var response = await http.get(Uri.parse("$urlAPIProduct/articlesAll"),
+          headers: {'Accept': 'application/json'});
+print(response.body);
+      if (response.statusCode == 202) {
+        return false;
+        // Attendez 5 secondes avant de vérifier à nouveau// Vérifiez à nouveau récursivement
+      } else if (response.statusCode == 200 || response.statusCode == 201) {
+        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        if (jsonResponse["status"] == true) {
+          List<dynamic> productsData = jsonResponse["products"];
+          List products = productsData
+              .map((productJson) => Product.fromJson(productJson))
+              .toList();
+          MyStorage storage = Get.find();
+          await storage.saveProduct(products as Product);
+          print("yessssssssssssssssssssssssssssssssssssssss");
+          return true;
+        } else {
+          print("chi haja mahiyachhhhhhhhhhhhhhhhhh");
+          print(response.statusCode);
+          return false;
+        }
+      } else {
+        MySnackbar.Warnning("email ou Mot de passe incorrect product");
+        print(response.statusCode);
+        return false;
+      }
+    } else {
+      MySnackbar.Warnning("Check your internet connection product");
+      return false;
+    }
+  } catch (e) {
+    print("you have an error: $e");
+    MySnackbar.Warnning(
+        "Some problem occurred, please try again later product");
+    return false;
+  }
+}
+
+/**************************************************** END CHECK PRODUCT ****************************************************/
+/**************************************************** START SEND EMAIL ****************************************************/
+Future<bool> sendEmail(String receiver, String subject, String body) async {
+  var urlsendEmail = Uri.parse('http://192.168.56.1:8081/sendEmail');
+
+  // Construire l'URL avec les paramètres de requête
+  var emailParams = {
+    'receiver': receiver,
+    'subject': subject,
+    'body': body,
+  };
+  var encodedUrl =
+      Uri.http(urlsendEmail.authority, urlsendEmail.path, emailParams);
+
+  try {
+    var response = await http.post(encodedUrl);
+
+    if (response.statusCode == 200) {
+      print('Email envoyé avec succès');
+      return true;
+    } else {
+      print(
+          'Échec de l\'envoi de l\'email. Code d\'état : ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Erreur lors de l\'envoi de l\'email: $e');
+    return false;
+  }
+}
+
+/**************************************************** END SEND EMAIL ****************************************************/
 // creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 

@@ -19,6 +19,8 @@ public class Categorie {
     @Column(nullable = false, length = 255)
     private String catNom;
 
+    private String image;
+
     // Constructors
     public Categorie() {
     }
@@ -43,5 +45,13 @@ public class Categorie {
         this.catNom = catNom;
     }
     /* ********************** NOM CATEGORIE END  ********************** */
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
 }

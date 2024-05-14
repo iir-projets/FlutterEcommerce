@@ -1,7 +1,7 @@
 import React, { useEffect, useState  } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { BsChatLeft } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
+// import { BsChatLeft } from "react-icons/bs";
+// import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import axios from "axios"; // Import axios
@@ -86,7 +86,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex">
-        <NavButton
+        {/* <NavButton
           title="Chat"
           dotColor="#03C9D7"
           customFunc={() => handleClick("chat")}
@@ -99,7 +99,7 @@ const Navbar = () => {
           customFunc={() => handleClick("notification")}
           color={currentColor}
           icon={<RiNotification3Line />}
-        />
+        /> */}
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"

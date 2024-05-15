@@ -1,6 +1,8 @@
 import 'dart:convert';
 // import 'dart:html';
 // import 'dart:io';
+import 'package:ecommerce_mobile_app/Fuctions/MyDialog.dart';
+import 'package:ecommerce_mobile_app/models/category.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_mobile_app/Fuctions/MySnackbar.dart';
@@ -212,33 +214,79 @@ Future<bool> editProfile(User user) async {
 
 String urlAPIProduct = "http://192.168.56.1:8081";
 
-Future<bool> checkAllProducts() async {
+Future<dynamic> checkAllProducts() async {
   try {
     if (await CheckInternet()) {
       var response = await http.get(Uri.parse("$urlAPIProduct/articlesAll"),
           headers: {'Accept': 'application/json'});
-print(response.body);
-      if (response.statusCode == 202) {
-        return false;
-        // Attendez 5 secondes avant de vérifier à nouveau// Vérifiez à nouveau récursivement
-      } else if (response.statusCode == 200 || response.statusCode == 201) {
+      print("////////////////////////////////////////////");
+      // print(response.body);
+      if (response.statusCode == 200 ||
+          response.statusCode == 201 ||
+          response.statusCode == 202) {
         var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
         if (jsonResponse["status"] == true) {
-          List<dynamic> productsData = jsonResponse["products"];
-          List products = productsData
-              .map((productJson) => Product.fromJson(productJson))
-              .toList();
-          MyStorage storage = Get.find();
-          await storage.saveProduct(products as Product);
-          print("yessssssssssssssssssssssssssssssssssssssss");
-          return true;
+          print(
+              "///////////////////2222222222222222222/////////////////////////");
+
+          // List<dynamic> productsData = jsonResponse["products"];
+          // List products = productsData
+          //     .map((productJson) => Product.fromJson(productJson))
+          //     .toList();
+
+          // Extraire la liste des catégories et des produits
+          // List<Category> categoriesList = List<Category>.from(
+          //     jsonResponse['categories']
+          //         .map((category) => Category.fromJson(category)));
+
+          // List<Product> all = List<Product>.from(jsonResponse['products']
+          //     .map((product) => Product.fromJson(product)));
+
+          // Créer une liste de listes de produits pour chaque catégorie
+          Map<String, dynamic> data = json.decode(response.body);
+          List<List<Product>> selectProduitParcategories = [];
+          print(
+              "///////////////////2222222222222222222/////////////////////////");
+          // Extraire la liste des catégories et des produits
+          List<dynamic> categories = data['categories'];
+          List<dynamic> products = data['products'];
+
+          List<Category> categoriesList = List<Category>.from(
+              jsonResponse['categories']
+                  .map((category) => Category.fromJson(category)));
+
+          // Boucle sur les catégories
+          for (var category in categories) {
+            String categoryName = category['catNom'];
+
+            // Filtrer les produits par catégorie
+            List<Product> categoryProducts = products
+                .where(
+                    (product) => product['categorie']['catNom'] == categoryName)
+                .map((product) => Product.fromJson(product))
+                .toList();
+            print(
+                "//////////////////66666666666666666666666666666666666666662/////////////////////////");
+            // Ajouter la liste des produits de cette catégorie à la liste de listes
+            selectProduitParcategories.add(categoryProducts);
+          }
+          print(
+              "///////////////////44444444444444444444444444442/////////////////////////");
+          List dataFinal = [selectProduitParcategories, categoriesList];
+          print(
+              "//////////////////////33333333333333333333333333//////////////////////");
+
+          return dataFinal;
         } else {
           print("chi haja mahiyachhhhhhhhhhhhhhhhhh");
           print(response.statusCode);
           return false;
         }
       } else {
-        MySnackbar.Warnning("email ou Mot de passe incorrect product");
+        // MySnackbar.Warnning("email ou Mot de passe incorrect product");
+        MyDialog.Warning("qlsmkd sjfqmsl", () {
+          checkAllProducts();
+        }, "actualiser", true);
         print(response.statusCode);
         return false;
       }
@@ -286,4 +334,4 @@ Future<bool> sendEmail(String receiver, String subject, String body) async {
 }
 
 /**************************************************** END SEND EMAIL ****************************************************/
-// creer fct li katjib lik data dyal product mn database kifma derna flogin ghir howa maghan7tajoch storage 
+// creer fct li katjib lik jsonResponse dyal product mn jsonResponsebase kifma derna flogin ghir howa maghan7tajoch storage 

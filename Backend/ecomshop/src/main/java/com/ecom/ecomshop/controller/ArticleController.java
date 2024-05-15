@@ -1,6 +1,8 @@
 package com.ecom.ecomshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.AbstractFileResolvingResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,8 @@ import com.ecom.ecomshop.model.Article;
 import com.ecom.ecomshop.model.Categorie;
 import com.ecom.ecomshop.repository.ArticleRepository;
 import com.ecom.ecomshop.repository.CategorieRepository;
+
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -19,11 +23,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,30 +74,35 @@ public class ArticleController {
         });
         return articles;
     }*/
+
+	private final String imageBaseUrl = "http://192.168.56.1:8081/im/";
+
 		
-		@GetMapping("/articlesAll")
-		public ResponseEntity<Object> getAllArticles() {
-		    List<Article> articles = articleRepository.findAll();
-		
-		    // Parcourir chaque article pour ajouter le chemin complet de l'image
-		    articles.forEach(article -> {
-		        String imageName = article.getImage();
-		        String imageUrl = "images/" + imageName; // Chemin complet de l'image
-		        article.setImage(imageUrl);
-		    });
-		
-		    // Créer un objet pour stocker le statut et les produits
-		    Map<String, Object> responseData = new HashMap<>();
-		
-		    // Ajouter le statut à l'objet de réponse
-		    responseData.put("status", "true");
-		
-		    // Ajouter la liste des produits à l'objet de réponse
-		    responseData.put("products", articles);
-		
-		    // Retourner la réponse JSON avec le statut et les produits
-		    return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseData);
-		}
+	@GetMapping("/articlesAll")
+    public ResponseEntity<Object> getAllArticles() {
+        List<Article> articles = articleRepository.findAll();
+        List<Categorie> categorie = categorieRepository.findAll();
+
+        // Créer un objet pour stocker le statut et les produits
+        Map<String, Object> responseData = new HashMap<>();
+
+        // Ajouter le statut à l'objet de réponse
+        responseData.put("status", true);
+
+        // Parcourir chaque article pour ajouter le chemin complet de l'image
+        articles.forEach(article -> {
+            String imageName = article.getImage();
+            String imageUrl = imageBaseUrl + imageName; // Chemin complet de l'image
+            article.setImage(imageUrl);
+        });
+
+        // Ajouter la liste des produits à l'objet de réponse
+        responseData.put("products", articles);
+        responseData.put("categories", categorie);
+
+        // Retourner la réponse JSON avec le statut et les produits
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseData);
+    }
 		
 		private String getBaseUrl() {
 		    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -185,4 +196,28 @@ public class ArticleController {
         String[] parts = originalFilename.split("\\.");
         return parts[parts.length - 1];
     }
+	private final Path rootLocationsafaa = Paths.get(System.getProperty("user.dir"), "ecomshop", "src", "main", "resources", "static", "images");
+
+    @GetMapping("/im/{imageName}")
+    public ResponseEntity<UrlResource> getImage(@PathVariable String imageName) {
+        try {
+            // Construire le chemin d'accès complet à l'image
+            Path imagePath = rootLocationsafaa.resolve(imageName);
+            UrlResource resource = new UrlResource(imagePath.toUri());
+
+            // Vérifier si l'image existe et est lisible
+            if (((AbstractFileResolvingResource) resource).exists() && ((AbstractFileResolvingResource) resource).isReadable()) {
+                // Si oui, renvoyer la réponse avec l'image
+                return ResponseEntity.ok().body(resource);
+            } else {
+                // Si l'image n'existe pas ou n'est pas lisible, renvoyer une réponse d'erreur
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            // En cas d'erreur lors de la récupération de l'image, renvoyer une réponse d'erreur
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+	
 }

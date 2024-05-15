@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             textTheme: GoogleFonts.mulishTextTheme(),
           ),
-          // home: const BottomNavBar(),
-          home: LoginPage(),
+          home: const BottomNavBar(),
+          // home: LoginPage(),
         ),
       );
 }

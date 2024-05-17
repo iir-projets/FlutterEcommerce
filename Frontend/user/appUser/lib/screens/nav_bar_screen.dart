@@ -31,14 +31,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     // TODO: implement initState
     utilisateur = storage.getUser();
-    print("777777777777777777777777777777");
-    print(utilisateur.adresse);
+    // print("777777777777777777777777777777");
+    // print(utilisateur.adresse);
     super.initState();
   }
 
   // declarer une variable bhal f login (loadWait) flowal ghaykon true (bach njibo data mn database)
   // f scaffold fih ghandir ila kant loadwait == true ? loadding : scaffold(....
-  // mn b3d nemchi l inistate o an3iyat ela la fonction li katjib data 
+  // mn b3d nemchi l inistate o an3iyat ela la fonction li katjib data
 
   @override
   Widget build(BuildContext context) {

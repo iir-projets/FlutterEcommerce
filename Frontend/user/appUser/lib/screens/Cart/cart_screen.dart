@@ -36,7 +36,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       // for total and check out
       backgroundColor: kcontentColor,
-      bottomSheet:  const CheckOutBox(),
+      bottomSheet: const CheckOutBox(),
 
       body: SafeArea(
         child: Column(
@@ -99,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 padding: const EdgeInsets.all(10),
-                                child: Image.asset(
+                                child: Image.network(
                                   cartItems.image,
                                 ),
                               ),
@@ -118,7 +118,7 @@ class _CartScreenState extends State<CartScreen> {
                                   const SizedBox(height: 5),
                                   Text(
                                     cartItems.category,
-                                    style:const TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey,

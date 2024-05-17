@@ -35,7 +35,7 @@ class ProductCard extends StatelessWidget {
                 Center(
                   child: Hero(
                     tag: product.image,
-                    child: Image.asset(
+                    child: Image.network(
                       product.image,
                       width: 120,
                       height: 120,

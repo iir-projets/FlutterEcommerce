@@ -6,6 +6,12 @@ class Category {
     required this.title,
     required this.image,
   });
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      title: json['catNom'],
+      image: 'images/${json['image']}',
+    );
+  }
 }
 
 final List<Category> categoriesList = [
@@ -14,7 +20,7 @@ final List<Category> categoriesList = [
     image: "images/all.png",
   ),
   Category(
-    title: "Shoes",
+    title: "parfum",
     image: "images/shoes.png",
   ),
   Category(

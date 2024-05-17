@@ -1,6 +1,9 @@
 import 'package:ecommerce_mobile_app/Fuctions/Functions.dart';
+import 'package:ecommerce_mobile_app/Fuctions/MyStorage.dart';
+import 'package:ecommerce_mobile_app/models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import '../nav_bar_screen.dart';
 import './signUp.dart';
 import './pwd.dart';
@@ -34,6 +37,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loadWait = false;
+  MyStorage storage = Get.find();
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   late TextEditingController email;
   late TextEditingController password;
@@ -42,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     email = TextEditingController();
     password = TextEditingController();
+  
     super.initState();
   }
 
@@ -54,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
     await Future.delayed(Duration(seconds: 3));
     // bhala kandiro refrech
     setState(() {
-      print("Succeeessss");
+      // print("Succeeessss");
       loadWait = false;
     });
   }

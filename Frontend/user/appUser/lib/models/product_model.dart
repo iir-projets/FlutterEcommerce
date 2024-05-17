@@ -1,4 +1,3 @@
-
 class Product {
   final String title;
   final String description;
@@ -14,14 +13,24 @@ class Product {
       required this.image,
       required this.price,
       required this.category,
-      required this.rate,
+      this.rate = 5.0,
       required this.quantity});
 
   Null get article_id => null;
 
   Null get name => null;
 
-  static fromJson(productJson) {}
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      title: json['name'],
+      description: json['description'],
+      image: json['image'],
+      price: json['price'].toDouble(),
+      category: json['categorie']['catNom'],
+      rate: 5.0,
+      quantity: json['quantite'],
+    );
+  }
 }
 
 final List<Product> all = [

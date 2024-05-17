@@ -43,7 +43,7 @@ public class EmailController {
         oubliePwdRepository.save(oubliePwd);
 
         // Envoyer l'email
-        sendEmailService.sendEmail(receiver, subject, body);
+        sendEmailService.sendEmail(receiver, subject,body);
         return "Email envoyé avec succès.";
     }
 }

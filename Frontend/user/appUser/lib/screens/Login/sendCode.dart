@@ -136,6 +136,7 @@ class _PhoneNumberVerificationScreenState
           border: InputBorder.none,
         ),
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        keyboardType: TextInputType.number,
       ),
     );
   }

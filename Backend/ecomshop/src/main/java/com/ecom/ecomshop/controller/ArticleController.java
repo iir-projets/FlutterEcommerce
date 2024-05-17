@@ -83,16 +83,35 @@ public class ArticleController {
         List<Article> articles = articleRepository.findAll();
         List<Categorie> categorie = categorieRepository.findAll();
 
+<<<<<<< HEAD
   
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("status", true);
 
+=======
+        // Créer un objet pour stocker le statut et les produits
+        Map<String, Object> responseData = new HashMap<>();
+
+        // Ajouter le statut à l'objet de réponse
+        responseData.put("status", true);
+
+        // Parcourir chaque article pour ajouter le chemin complet de l'image
+>>>>>>> 905d94bc5a035180a95e350bdfb750a4e56b3837
         articles.forEach(article -> {
             String imageName = article.getImage();
             String imageUrl = imageBaseUrl + imageName; // Chemin complet de l'image
             article.setImage(imageUrl);
         });
+<<<<<<< HEAD
         responseData.put("products", articles);
+=======
+
+        // Ajouter la liste des produits à l'objet de réponse
+        responseData.put("products", articles);
+        responseData.put("categories", categorie);
+
+        // Retourner la réponse JSON avec le statut et les produits
+>>>>>>> 905d94bc5a035180a95e350bdfb750a4e56b3837
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(responseData);
     }
 		

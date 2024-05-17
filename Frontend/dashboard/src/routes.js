@@ -6,7 +6,8 @@ import { Ecommerce, Orders, Categories,AddProduct,
     // Stacked, Pyramid,
      Customers,
       // Kanban, Area, Bar, Pie, Line, Financial, ColorPicker, ColorMapping, Editor,
-       Adminlog } from "./pages";
+       Adminlog, 
+       Updateproduct} from "./pages";
 import App from './App'
 const AppRoutes = () => {
   return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
       <Route path="/Products" element={<Products />} />
       <Route path="/categories" element={<Categories /> }/>
       <Route path="/AddProduct" element={<AddProduct /> }/>
+      <Route path="/Updateproduct" element={<Updateproduct />}/>
       <Route path="/AdminSignUp" element={<AdminSignUp /> }/>
 
       {/* Apps */}

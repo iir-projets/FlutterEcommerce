@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import loginimage from "../assets/products/images/Login-amico.png"
 
@@ -61,11 +61,11 @@ const Adminlog = () => {
                       <div className="pt-1 mb-4">
                         <button type="submit" className="btn btn-dark btn-lg btn-block">Login</button> {/* Added type="submit" */}
                       </div>
-                      <div className="pt-1 mb-4">
+                      {/* <div className="pt-1 mb-4">
                         <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>Don't have an account?
                           <Link to="/AdminSignUp" style={{ color: "#393f81" }}>Register here</Link>
                         </p>
-                      </div>
+                      </div> */}
                     </form>
                   </div>
                 </div>

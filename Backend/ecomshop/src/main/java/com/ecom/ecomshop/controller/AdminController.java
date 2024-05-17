@@ -39,7 +39,6 @@ public class AdminController {
     @PostMapping("/admin/connexion")
     @ResponseBody
     public ResponseEntity<String> connexion(@RequestBody Admin admin) {
-        // Retrieve the admin by username and password
         Admin adminFromDB = adminRepository.findByUsernameAndPassword(admin.getUsername(), admin.getPassword());
         
         if (adminFromDB != null) {

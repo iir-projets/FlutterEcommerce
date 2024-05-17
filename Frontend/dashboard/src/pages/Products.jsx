@@ -18,10 +18,11 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+// import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
 import { Navbar, Footer, Sidebar } from "../components";
 import AddProduct from "./AddProduct";
+// import Updateproduct from './updateproduct';
 
 import { contextMenuItems, ProductGrid } from "../data/data";
 import { Header } from "../components";
@@ -29,9 +30,6 @@ import { Header } from "../components";
 const Products = () => {
   const { activeMenu, setThemeSettings, currentColor } = useStateContext();
 
-  const handleEdit = (rowData) => {
-    // Implement the edit functionality here
-  };
 
   const handleDelete = async (rowData) => {
     try {
@@ -49,8 +47,9 @@ const Products = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://192.168.56.1:8081/articlesAll');
-        if (response.data.status === "true") {
+        if (response.data.status === true) {
           setOrdersData(response.data.products);
+          console.log(response.data.products);
         } else {
           console.error('Failed to fetch data');
         }
@@ -110,13 +109,11 @@ const Products = () => {
               {ProductGrid.map((item, index) => (
                 <ColumnDirective key={index} {...item} />
               ))}
-              <ColumnDirective headerText="edit" width="150" template={(props) => {
+              {/* <ColumnDirective headerText="edit" width="150" template={(props) => {
                 return (
-                  <div>
-                    <button type="button" className="btn btn-info" onClick={() => handleEdit(props)}><FaEdit /></button>
-                  </div>
+                  <Updateproduct />
                 );
-              }} />
+              }} /> */}
               <ColumnDirective headerText="delete" width="150" template={(props) => {
                 return (
                   <div>

@@ -36,8 +36,7 @@ const UserProfile = () => {
 
   // Function to logout user
   const handleLogout = () => {
-    localStorage.removeItem('userId'); // Remove user ID from local storage
-    // Redirect to "/" route
+    // localStorage.removeItem('userId'); 
     navigate("/");
   };
 

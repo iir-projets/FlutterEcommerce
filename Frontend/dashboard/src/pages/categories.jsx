@@ -20,8 +20,8 @@ const Categories = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get("http://192.168.56.1:8081/categorie");
-      console.log("Response data:", response.data); // Check the response data
-      setCategories(response.data.categories); // Extract categories array
+      console.log("Response data:", response.data); 
+      setCategories(response.data.categories); 
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -80,15 +80,12 @@ const Categories = () => {
           </button>
         </div>
       </div>
-
-      {/* Category items */}
       <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
         {categories.map((category) => (
           <div
             key={category.catId}
             className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56 p-4 pt-9 rounded-2xl"
           >
-            {/* Render category details */}
             <p className="text-lg font-semibold">{category.catNom}</p>
             <img src={category.image} alt={category.catNom} className="w-full h-auto" />
             <div>

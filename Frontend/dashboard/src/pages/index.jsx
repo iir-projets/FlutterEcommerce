@@ -11,6 +11,7 @@ export { default as Adminlog } from './Admonlog';
 export { default as AdminSignUp } from './AdminSignUp';
 export { default as Categories } from './categories';
 export { default as AddProduct } from './AddProduct';
+export { default as Updateproduct } from './updateproduct';
 export { default as Products } from './Products'
 export { default as Area } from './Charts/Area';
 export { default as Bar } from './Charts/Bar';

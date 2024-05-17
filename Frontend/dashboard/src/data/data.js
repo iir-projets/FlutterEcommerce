@@ -1,21 +1,21 @@
 import React from "react";
 
-const backendUrl = 'http://192.168.56.1:8081';
+// const backendUrl = 'http://192.168.56.1:8081';
 
-export const productImage = (props) => (
-    <div>
+export const ProductImage = (props) => (
+  <div>
       <img
-        className="rounded-xl h-20 md:ml-3"
-        src={`${backendUrl}/images/${props.image}`} // Using string interpolation
-        alt={props.name}
+          className="rounded-xl h-20 md:ml-3"
+          src={props.image}
+          alt={props.name}
       />
-    </div>
-  );
+  </div>
+);
 export const ProductGrid = [
     {
       field:"image",
       headerText: "image",
-      template: productImage,
+      template: ProductImage,
       textAlign: "Center",
       width: "120",
     },
